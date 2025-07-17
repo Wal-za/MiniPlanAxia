@@ -1,0 +1,81 @@
+/* Fondo general */
+body {
+  background-color: #005fa3;
+  font-family: sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {  
+  text-align: center;
+}
+
+/* Estilos del formulario */
+form {
+  background-color: #fff;
+  color: #333;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 3rem auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Etiquetas */
+label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+select {
+  display: block;
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #f0f0f0;
+}
+
+/* Checkboxes */
+input[type="checkbox"] {
+  margin-top: 0.5rem;
+  transform: scale(1.2);
+}
+
+/* Botón */
+button {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+/* Texto de ayuda */
+.hint {
+  font-weight: normal;
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.3rem;
+}
+
+p{
+    color: black;
+}

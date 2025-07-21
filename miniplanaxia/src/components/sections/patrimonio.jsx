@@ -11,34 +11,24 @@ function PatrimonioYRiesgos({ onNext, onBack, formData }) {
     seguroIncapacidad: formData.seguroIncapacidad || '',
     polizaSalud: formData.polizaSalud || '',
     fondoEmergencia: formData.fondoEmergencia || '',
+    totalDeudasMensuales: formData.totalDeudasMensuales || '',
+    otrosGastosMensuales: formData.otrosGastosMensuales || '',
   });
 
   const preguntas = [
     {
       label: 'Por favor escribe el valor total de tus activos.',
-      hint: 'Ejemplo: Carro, Casa, Cuentas de ahorro, inversiones en bolsa, fondos de pensiones voluntarias, etc.',
+      hint: 'Sumatoria de Carro, Casa, Cuentas de ahorro, Inversiones en bolsa, fondos de pensiones voluntarias, inversiones en acciones y demás.',
       type: 'number',
       field: 'patrimonio',
-    },
-    {
-      label: 'Por favor anota la totalidad del valor de tus deudas.',
-      hint: 'Ejemplo: tarjetas de crédito, créditos de libre inversión, vehicular, deudas personales, hipotecario, leasing.',
-      type: 'number',
-      field: 'deuda',
-    },
-    {
-      label: '¿Tienes plan B para tu pensión?',
-      hint: 'Ejemplo: Fondo de pensiones voluntarias, plan de ahorro mensual, entre otros.',
-      type: 'text',
-      field: 'planB',
-    },
+    },    
     {
       label: '¿Cuentas con un seguro de vida?',
       type: 'radio',
       field: 'seguroVida',
     },
     {
-      label: '¿Tienes hijos o alguien que dependa económicamente de ti?',
+      label: '¿Tienes alguien que dependa económicamente de ti?',
       type: 'radio',
       field: 'tieneHijosDependientes',
     },
@@ -56,6 +46,30 @@ function PatrimonioYRiesgos({ onNext, onBack, formData }) {
       label: '¿Cuentas con un fondo de emergencia?',
       type: 'radio',
       field: 'fondoEmergencia',
+    },
+    {
+      label: 'Por favor anota la totalidad del valor de tus deudas.',
+      hint: 'Sumatoria de tarjetas de crédito, créditos de libre inversión, vehicular, deudas personales, hipotecario, leasing.',
+      type: 'number',
+      field: 'deuda',
+    },
+    {
+      label: '¿Tienes plan B para tu pensión?',
+      hint: 'Puede ser: Fondo de pensiones voluntarias, plan de ahorro mensual, entre otros.',
+      type: 'text',
+      field: 'planB',
+    },    
+    {
+      label: '¿Cuánto destinas de manera mensual a todas las cuotas de tus deudas?',
+      hint: 'Sumatoria de tarjetas de crédito, créditos de libre inversión, vehicular, deudas personales, hipotecario, leasing.',
+      type: 'number',
+      field: 'totalDeudasMensuales',
+    },
+    {
+      label: '¿Tienes otros gastos mensuales?',
+      hint:  'Sumatoria de ayuda a familiares, diezmos o donaciones, pagos de arriendos de tu consultorio u oficina, asistente, secretaria, celulares empresariales, soporte a tu conyugue, celular de tus familiares.',
+      type: 'number',
+      field: 'otrosGastosMensuales',
     },
   ];
 
@@ -114,9 +128,9 @@ function PatrimonioYRiesgos({ onNext, onBack, formData }) {
         ) : (
           <input
             type={current.type}
+            placeholder='Escribe aquí tu respuesta...'
             value={localData[current.field]}
-            onChange={e => handleChange(current.field, e.target.value)}
-            required
+            onChange={e => handleChange(current.field, e.target.value)}        
           />
         )}
       </div>

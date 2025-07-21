@@ -17,6 +17,14 @@ export default function InformacionLaboral({ onNext, formData }) {
     }
   };
 
+  const handleBack = () => {
+  if (step > 0) {
+    setStep(step - 1);
+  console.log("no se puede ")
+  }
+};
+
+
   const handleChange = (field, value) => {
     setLocalData(prev => ({ ...prev, [field]: value }));
   };
@@ -25,7 +33,7 @@ export default function InformacionLaboral({ onNext, formData }) {
     { label: 'Empresa donde trabajas', name: 'empresa' },
     { label: 'Cargo / ocupación', name: 'cargo' },
     { label: 'Administradora de fondo de pensiones', name: 'afp' },
-    { label: '¿Cuántas semanas has aportado?', name: 'semanasCotizadas' }
+    { label: '¿Cuantas semanas has aportado al sistema pensional?', name: 'semanasCotizadas' }
   ];
 
   return (
@@ -33,12 +41,16 @@ export default function InformacionLaboral({ onNext, formData }) {
       <label>{preguntas[step].label}
         <input
           type="text"
+          placeholder='Escribe aquí tu respuesta...'
           value={localData[preguntas[step].name]}
           onChange={(e) => handleChange(preguntas[step].name, e.target.value)}
         />
       </label>
       <br />
-      <button type="submit">{step < 3 ? 'Siguiente' : 'Continuar'}</button>
+       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
+        <button type="button" onClick={handleBack}>Atrás</button>
+      <button type="submit">{step < 2 ? 'Siguiente' : 'Continuar'}</button>
+      </div>
     </form>
   );
 }

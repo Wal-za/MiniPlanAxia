@@ -5,19 +5,21 @@ import MetasFinancieras from './sections/MetasFinancieras';
 import Ingresos from './sections/Ingresos';
 import GastosMensuales from './sections/GastosMensuales';
 import GastosAnuales from './sections/GastosAnuales';
-import Deudas from './sections/Deudas';
-import Impuestos from './sections/Impuestos';
 import Patrimonio from './sections/patrimonio';
+import Objetivos from './sections/SelectorObjetivos';
+
+
+
+
 
 const sections = [
   DatosPersonales,
   InformacionLaboral,
   MetasFinancieras,
+  Objetivos,
   Ingresos,
   GastosMensuales,
   GastosAnuales,
-  Deudas,
-  Impuestos,
   Patrimonio,
 ];
 

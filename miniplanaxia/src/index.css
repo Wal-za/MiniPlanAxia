@@ -1,8 +1,6 @@
 /* Fondo general */
-body {
-  background-color: #005fa3;
-  font-family: sans-serif;
-  color: #fff;
+body { 
+  font-family: sans-serif; 
   margin: 0;
   padding: 0;
 }
@@ -13,13 +11,9 @@ h2 {
 
 /* Estilos del formulario */
 form {
-  background-color: #fff;
-  color: #333;
   padding: 2rem;
-  border-radius: 8px;
   max-width: 500px;
-  margin: 3rem auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin: 3rem auto;  
 }
 
 /* Etiquetas */
@@ -27,6 +21,7 @@ label {
   display: block;
   margin-bottom: 1rem;
   font-weight: bold;
+  letter-spacing: 1px;
 }
 
 /* Inputs */
@@ -35,15 +30,33 @@ input[type="number"],
 input[type="email"],
 input[type="date"],
 select {
-  display: block;
-  width: 100%;
-  padding: 0.7rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1.2rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: #f0f0f0;
+    display: block;
+    width: 100%;
+    font-family: inherit;
+    color: rgb(1, 66, 172);
+    padding-block-start: 20px;
+    padding-block-end: 10px;
+    padding-inline: 0px;
+    border: none;
+    outline: none;
+    border-radius: 0px;
+    appearance: none;
+    background-image: none;
+    background-position: initial;
+    background-size: initial;
+    background-repeat: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    transform: translateZ(0px);
+    font-size: 24px;
+    -webkit-font-smoothing: antialiased;
+    line-height: unset;
+    -webkit-text-fill-color: rgb(173, 193, 225);
+    animation: 1ms ease 0s 1 normal none running native-autofill-in;
+    transition: background-color 1e+08s, box-shadow 0.1s ease-out;
+    box-shadow: rgba(1, 66, 172, 0.3) 0px 1px;
+    background-color: transparent !important;
 }
 
 /* Checkboxes */
@@ -51,6 +64,27 @@ input[type="checkbox"] {
   margin-top: 0.5rem;
   transform: scale(1.2);
 }
+
+strong{
+   font-weight: 100;
+   font-size: 75%;
+}
+
+p {
+    color: #00000094 !important;
+    margin: 15px 0px !important;
+}
+
+#root > div > div > form > div:nth-child(1) > div > label{ 
+  margin-left: 0px !important;
+}
+
+
+#root > div > div > form > div:nth-child(1) > div > label > input[type=radio]{ 
+  margin-right: 10px;
+  padding: 0px;
+}
+
 
 /* Botón */
 button {
@@ -76,6 +110,15 @@ button:hover {
   margin-top: 0.3rem;
 }
 
-p{
-    color: black;
+
+/* Para Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Para Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

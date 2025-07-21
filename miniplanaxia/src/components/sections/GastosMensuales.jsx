@@ -17,47 +17,47 @@ function GastosMensuales({ onNext, formData }) {
   const preguntas = [
     {
       label: '¿Realizas algún tipo de ahorro mensual?',
-      hint: 'Ejemplo: Cuenta AFC, fondo de empleados, pensiones voluntarias.',
+      hint: 'Cuenta AFC, fondo de empleados, pensiones voluntarias, Si es así, pon la sumatoria del valor mensual',
       field: 'ahorroMensual',
     },
     {
       label: '¿Cuánto gastas en transporte mensualmente?',
-      hint: 'Ejemplo: taxis, bus, gasolina, parqueaderos.',
+      hint: 'Ejemplo: sumatoria de taxis, bus, gasolina, otros',
       field: 'transporte',
     },
     {
       label: '¿Cuánto gastas en cuidado personal?',
-      hint: 'Ejemplo: celular, ropa, hobbies, medicamentos, peluquería, terapias.',
+      hint: 'Sumatoria de  celular, ropa, hobbies, medicamentos, peluquería, terapias, etc.',
       field: 'cuidadoPersonal',
     },
     {
       label: '¿Cuánto gastas en comida entre semana?',
-      hint: 'Ejemplo: almuerzos en oficina.',
+      hint: 'Sumatoria de almuerzos mensuales en la oficina.',
       field: 'comidaOficina',
     },
     {
       label: '¿Cuánto gastas en tu hogar?',
-      hint: 'Ejemplo: arriendo, servicios, mercado, administración, mascotas.',
+      hint: 'incluyendo administración o arriendo, mercados, gas, luz, agua, servicio doméstico, domicilios, mascota',
       field: 'gastosHogar',
     },
     {
       label: '¿Cuánto gastas en entretenimiento?',
-      hint: 'Ejemplo: cine, restaurantes, salidas sociales.',
+      hint:  'Sumatoria de Salidas a cine, rumba, restaurantes',
       field: 'entretenimiento',
     },
     {
       label: '¿Pagas seguros mensualmente?',
-      hint: 'Ejemplo: medicina prepagada, seguro de vida, salud, carro.',
+      hint:  'Si es así pon el valor mensual de estos seguros. Ejemplo: Sumatoria de Medicina prepagada, seguro de vida, seguro de salud, seguro del carro. ',
       field: 'segurosMensuales',
     },
     {
       label: '¿Pagas cursos mensualmente?',
-      hint: 'Ejemplo: cursos de inglés, yoga, talleres, educación.',
+      hint:  'Sumatoria de Cursos de inglés, talleres, yoga, educativos.. Pon el valor mensual destinado.',
       field: 'cursos',
     },
     {
       label: '¿Tienes hijos? ¿Cuánto gastas en ellos mensualmente?',
-      hint: 'Ejemplo: colegio, transporte, mesada, niñera, ropa, psicólogo.',
+      hint:  'Si respondiste que sí, anota el valor mensual de los gastos destinados a ellos. Ejemplo: Sumatoria de Colegio, transporte, mesada, cursos extracurriculares, pañales, leche, niñera, ropa, psicólogo.',
       field: 'hijos',
     },
   ];
@@ -77,6 +77,7 @@ function GastosMensuales({ onNext, formData }) {
         <p className="hint">{preguntas[step].hint}</p>
         <input
           type="number"
+          placeholder='Escribe aquí tu respuesta...'
           value={localData[preguntas[step].field]}
           onChange={(e) =>
             setLocalData({ ...localData, [preguntas[step].field]: e.target.value })

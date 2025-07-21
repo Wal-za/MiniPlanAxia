@@ -13,22 +13,27 @@ function Ingresos({ onNext, formData }) {
   const preguntas = [
     {
       label: '¿Cuál es el ingreso neto que entra a tu cuenta de manera mensual?',
+      hint: '',
       field: 'ingresoNetoMensual',
     },
     {
-      label: '¿Recibes algún ingreso trimestral por cumplimiento? Si es así, inserta el valor mensual (si es trimestral divídelo en 3)',
+      label: '¿Recibes algún ingreso trimestral por cumplimiento?',
+      hint:  'Si es así inserta el valor mensual (si es trimestral divídelo en 3)',
       field: 'ingresoTrimestral',
     },
     {
-      label: '¿Recibes ingresos adicionales mensuales como arriendos, préstamos, entre otros?',
+      label: '¿Recibes ingresos adicionales mensuales?',
+      hint:  'como arriendos, prestamos, entre otros',
       field: 'ingresosAdicionales',
     },
     {
-      label: 'Si recibes prima, pon el valor total de lo que recibes en el año (suma prima de junio y prima de diciembre)',
+      label: '¿Recibes prima?',
+      hint:  'pon el valor total de lo que recibes en el año (suma prima de junio y prima de Diciembre)',
       field: 'primaAnual',
     },
     {
-      label: '¿Recibes bonificaciones? Si es así pon el valor de tu bono anual',
+      label: '¿Recibes bonificaciones?',
+      hint:  'Si es así pon el valor de tu bono anual',
       field: 'bonificacionesAnuales',
     },
   ];
@@ -41,20 +46,29 @@ function Ingresos({ onNext, formData }) {
     }
   };
 
+  const currentPregunta = preguntas[step];
+
   return (
     <form onSubmit={(e) => { e.preventDefault(); handleNext(); }}>
-      <label>
-        {preguntas[step].label}
+      <div>
+        <label style={{ fontWeight: 'bold' }}>{currentPregunta.label}</label>
+        <p>{currentPregunta.hint}</p>
+
+       
         <input
+          id={currentPregunta.field}
           type="number"
-          value={localData[preguntas[step].field]}
+          placeholder='Escribe aquí tu respuesta...'
+          value={localData[currentPregunta.field]}
           onChange={(e) =>
-            setLocalData({ ...localData, [preguntas[step].field]: e.target.value })
+            setLocalData({ ...localData, [currentPregunta.field]: e.target.value })
           }
         />
-      </label>
+      </div>
       <br />
-      <button type="submit">{step < preguntas.length - 1 ? 'Siguiente' : 'Continuar'}</button>
+      <button type="submit">
+        {step < preguntas.length - 1 ? 'Siguiente' : 'Continuar'}
+      </button>
     </form>
   );
 }

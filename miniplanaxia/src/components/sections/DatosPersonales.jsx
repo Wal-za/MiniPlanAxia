@@ -16,6 +16,13 @@ export default function DatosPersonales({ onNext, formData }) {
     }
   };
 
+  const handleBack = () => {
+  if (step > 0) {
+    setStep(step - 1);
+    setError('');
+  }
+};
+
   return (
     <form onSubmit={(e) => { e.preventDefault(); handleNext(); }}>
       {step === 0 && (
@@ -23,6 +30,7 @@ export default function DatosPersonales({ onNext, formData }) {
           ¿Qué asesor de Axia Finanzas Personales te recomendó este test?
           <input
             type="text"
+            placeholder='Escribe aquí tu respuesta...'
             value={localData.recomendadoPor}
             onChange={(e) => setLocalData({ ...localData, recomendadoPor: e.target.value })}
           />
@@ -33,6 +41,7 @@ export default function DatosPersonales({ onNext, formData }) {
           Nombre completo
           <input
             type="text"
+            placeholder='Escribe aquí tu respuesta...'
             value={localData.nombre}
             onChange={(e) => setLocalData({ ...localData, nombre: e.target.value })}
           />
@@ -48,8 +57,15 @@ export default function DatosPersonales({ onNext, formData }) {
           />
         </label>
       )}
-      <br />
-      <button type="submit">{step < 2 ? 'Siguiente' : 'Continuar'}</button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
+        {step > 0 && (
+          <button type="button" onClick={handleBack}>Atrás</button>
+        )}
+
+        <button type="submit">
+          {step < 2 ? 'Siguiente' : 'Continuar'}
+        </button>
+        </div>
     </form>
   );
 }

@@ -1,33 +1,17 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import DatosPersonales from './sections/DatosPersonales';
-import InformacionLaboral from './sections/InformacionLaboral';
-import MetasFinancieras from './sections/MetasFinancieras';
-import Ingresos from './sections/Ingresos';
-import GastosMensuales from './sections/GastosMensuales';
-import GastosAnuales from './sections/GastosAnuales';
-import Patrimonio from './sections/patrimonio';
-import Objetivos from './sections/SelectorObjetivos';
-
-
-
 
 
 const sections = [
-  DatosPersonales,
-  InformacionLaboral,
-  MetasFinancieras,
-  Objetivos,
-  Ingresos,
-  GastosMensuales,
-  GastosAnuales,
-  Patrimonio,
+  { component: DatosPersonales, name: 'Datos Personales' },  
 ];
 
 export default function FormWizard() {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [formData, setFormData] = useState({});
 
-  const CurrentSection = sections[sectionIndex];
+  const CurrentSection = sections[sectionIndex].component;
+  const sectionName = sections[sectionIndex].name;
 
   const nextSection = (sectionData) => {
     setFormData(prev => ({ ...prev, ...sectionData }));
@@ -39,11 +23,29 @@ export default function FormWizard() {
     }
   };
 
+  const prevSection = () => {
+    if (sectionIndex > 0) {
+      setSectionIndex(sectionIndex - 1);
+    }
+  };
+
   return (
-    <div>
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
       <h2>Mini Plan Financiero</h2>
-      
-      <CurrentSection onNext={nextSection} formData={formData} />
+      <h4 style={{ marginBottom: '10px' }}>
+      </h4>
+
+      <CurrentSection
+        onNext={nextSection}
+        onBack={prevSection}
+        formData={formData}
+      />
+
+      <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
+        {sectionIndex > 0 && (
+          <button onClick={prevSection}>Atrás</button>
+        )}
+      </div>
     </div>
   );
 }

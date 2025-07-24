@@ -59,31 +59,12 @@ select {
     background-color: transparent !important;
 }
 
-/* Checkboxes */
-input[type="checkbox"] {
-  margin-top: 0.5rem;
-  transform: scale(1.2);
-}
 
-strong{
-   font-weight: 100;
-   font-size: 75%;
-}
-
-p {
-    color: #00000094 !important;
-    margin: 15px 0px !important;
-}
-
-#root > div > div > form > div:nth-child(1) > div > label{ 
-  margin-left: 0px !important;
+checkboxObjetivos{
+    background-color: #0077cc;
 }
 
 
-#root > div > div > form > div:nth-child(1) > div > label > input[type=radio]{ 
-  margin-right: 10px;
-  padding: 0px;
-}
 
 
 /* Botón */
@@ -98,9 +79,6 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #005fa3;
-}
 
 /* Texto de ayuda */
 .hint {
@@ -108,6 +86,7 @@ button:hover {
   font-size: 0.85rem;
   color: #666;
   margin-top: 0.3rem;
+  color: black;
 }
 
 

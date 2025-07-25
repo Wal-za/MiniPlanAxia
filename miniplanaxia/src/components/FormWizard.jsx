@@ -15,25 +15,39 @@ export default function FormWizard() {
   const sectionName = sections[sectionIndex].name;
 
   const nextSection = (sectionData) => {
-    setFormData(prev => ({ ...prev, ...sectionData }));
-    if (sectionIndex < sections.length - 1) {
-      setSectionIndex(sectionIndex + 1);
-    } else {
-  const datosAEnviar = { ...formData, ...sectionData };
+  setFormData(prev => ({ ...prev, ...sectionData }));
 
-  axios.post('http://localhost:3001/api/miniplan', datosAEnviar)
-    .then(response => {
-      console.log('Respuesta del servidor:', response.data);
-      alert('¡Formulario completo y enviado con éxito!');
-    })
-    .catch(error => {
-      console.error('Error al enviar el formulario:', error);
-      alert('Error al enviar el formulario. Revisa la consola.');
-    });
+  if (sectionIndex < sections.length - 1) {
+    setSectionIndex(sectionIndex + 1);
+  } else {
+    const datosAEnviar = { ...formData, ...sectionData };
 
-  console.log('Formulario completo:', datosAEnviar);
-}
-  };
+    axios.post('http://localhost:3001/api/miniplan', datosAEnviar)
+      .then(response => {
+        const { mensaje, resumenFinanciero } = response.data;
+
+        console.log('Respuesta del servidor:', mensaje);
+        console.log(' Resumen financiero:');
+
+        if (resumenFinanciero && Array.isArray(resumenFinanciero.resumen)) {
+          resumenFinanciero.resumen.forEach((linea, index) => {
+            console.log(`${index + 1}. ${linea}`);
+          });
+        } else {
+          console.warn('El resumen financiero no se recibió en el formato esperado.');
+        }
+
+        alert('¡Formulario completo y enviado con éxito!');
+      })
+      .catch(error => {
+        console.error('Error al enviar el formulario:', error);
+        alert('Error al enviar el formulario. Revisa la consola.');
+      });
+
+    console.log('📨 Formulario completo (enviado):', datosAEnviar);
+  }
+};
+
 
   const prevSection = () => {
     if (sectionIndex > 0) {

@@ -22,8 +22,8 @@ export default function FormWizard() {
   } else {
     const datosAEnviar = { ...formData, ...sectionData };
     
-    //axios.post('https://server-axia.vercel.app/api/',  datosAEnviar)
-    axios.post('http://localhost:3001/api/miniplan', datosAEnviar)
+    axios.post('https://server-axia.vercel.app/api/',  datosAEnviar)
+    //axios.post('http://localhost:3001/api/miniplan', datosAEnviar)
       .then(response => {
         const { mensaje, resumenFinanciero } = response.data;
 

@@ -1,22 +1,28 @@
-/* Fondo general */
-body { 
+/* Estilos originales */
+#root {
   font-family: sans-serif; 
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  height: 100vh;          
   margin: 0;
   padding: 0;
+}
+
+.App {
+  width: 70%;
 }
 
 h2 {  
   text-align: center;
 }
 
-/* Estilos del formulario */
 form {
   padding: 2rem;
   max-width: 500px;
   margin: 3rem auto;  
 }
 
-/* Etiquetas */
 label {
   display: block;
   margin-bottom: 1rem;
@@ -24,12 +30,127 @@ label {
   letter-spacing: 1px;
 }
 
-/* Inputs */
 input[type="text"],
 input[type="number"],
 input[type="email"],
 input[type="date"],
 select {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  color: rgb(1, 66, 172);
+  padding-block-start: 20px;
+  padding-block-end: 10px;
+  padding-inline: 0px;
+  border: none;
+  outline: none;
+  border-radius: 0px;
+  appearance: none;
+  background-image: none;
+  background-position: initial;
+  background-size: initial;
+  background-repeat: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  transform: translateZ(0px);
+  font-size: 24px;
+  -webkit-font-smoothing: antialiased;
+  line-height: unset;
+  -webkit-text-fill-color: rgb(173, 193, 225);
+  animation: 1ms ease 0s 1 normal none running native-autofill-in;
+  transition: background-color 1e+08s, box-shadow 0.1s ease-out;
+  box-shadow: rgba(1, 66, 172, 0.3) 0px 1px;
+  background-color: transparent !important;
+}
+
+button {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.hint {
+  font-weight: normal;
+  font-size: 0.85rem;
+  color: black;
+  margin-top: 0.3rem;
+}
+
+.contaiButtons {
+  display: flex;
+  justify-content: space-between;                  
+  padding: 30px 10px;  
+}
+
+#root > div > div > div:nth-child(2) > div:nth-child(1) > div {
+  display: flex;
+  padding: 5px 0px   
+}
+
+#root > div > div > div:nth-child(2) > div:nth-child(1) > div > label {
+  margin-bottom: 0px;
+  margin-left: 5px;
+  font-weight: 100;
+  font-size: 13px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+/* MEDIA QUERY PARA MÓVILES: replica exacta del diseño */
+@media (max-width: 600px) {
+  #root {
+    font-family: sans-serif; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    height: 100vh;          
+    margin: 0;
+    padding: 0;
+  }
+
+  .App {
+    width: 70%;
+  }
+
+  h2 {  
+    text-align: center;
+  }
+
+  form {
+    padding: 2rem;
+    max-width: 500px;
+    margin: 3rem auto;  
+  }
+
+  label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="date"],
+  select {
     display: block;
     width: 100%;
     font-family: inherit;
@@ -57,47 +178,51 @@ select {
     transition: background-color 1e+08s, box-shadow 0.1s ease-out;
     box-shadow: rgba(1, 66, 172, 0.3) 0px 1px;
     background-color: transparent !important;
-}
+  }
 
-
-checkboxObjetivos{
+  button {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
     background-color: #0077cc;
-}
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
 
+  .hint {
+    font-weight: normal;
+    font-size: 0.85rem;
+    color: black;
+    margin-top: 0.3rem;
+  }
 
+  .contaiButtons {
+    display: flex;
+    justify-content: space-between;                  
+    padding: 30px 10px;  
+  }
 
+  #root > div > div > div:nth-child(2) > div:nth-child(1) > div {
+    display: flex;
+    padding: 5px 0px   
+  }
 
-/* Botón */
-button {
-  display: inline-block;
-  padding: 0.7rem 1.5rem;
-  background-color: #0077cc;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-}
+  #root > div > div > div:nth-child(2) > div:nth-child(1) > div > label {
+    margin-bottom: 0px;
+    margin-left: 5px;
+    font-weight: 100;
+    font-size: 13px;
+  }
 
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-/* Texto de ayuda */
-.hint {
-  font-weight: normal;
-  font-size: 0.85rem;
-  color: #666;
-  margin-top: 0.3rem;
-  color: black;
-}
-
-
-/* Para Chrome, Safari, Edge, Opera */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Para Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 }

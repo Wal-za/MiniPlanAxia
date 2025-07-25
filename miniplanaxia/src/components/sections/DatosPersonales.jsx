@@ -52,8 +52,8 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
     { label: '¿Cuentas con un seguro de incapacidad?', type: 'radio', name: 'seguroIncapacidad', options: ['Sí', 'No'] },
     { label: '¿Tienes póliza de salud?', type: 'radio', name: 'polizaSalud', options: ['Sí', 'No'] },
     { label: '¿Cuentas con un fondo de emergencia?', type: 'radio', name: 'fondoEmergencia', options: ['Sí', 'No'] },
-    { label: 'Por favor anota la totalidad del valor de tus deudas.', hint: 'Sumatoria de tarjetas de crédito, créditos de libre inversión, vehicular, deudas personales, hipotecario, leasing.', type: 'number', name: 'deuda' },
     { label: '¿Tienes plan B para tu pensión?', hint: 'Puede ser: Fondo de pensiones voluntarias, plan de ahorro mensual, entre otros.', type: 'text', name: 'planB' },
+    { label: 'Por favor anota la totalidad del valor de tus deudas.', hint: 'Sumatoria de tarjetas de crédito, créditos de libre inversión, vehicular, deudas personales, hipotecario, leasing.', type: 'number', name: 'deuda' },
     { label: '¿Cuánto destinas de manera mensual a todas las cuotas de tus deudas?', hint: 'Sumatoria de tarjetas de crédito, créditos de libre inversión, vehicular, deudas personales, hipotecario, leasing.', type: 'number', name: 'totalDeudasMensuales' },
     { label: '¿Tienes otros gastos mensuales?', hint: 'Sumatoria de ayuda a familiares, diezmos o donaciones, pagos de arriendos de tu consultorio u oficina, asistente, secretaria, celulares empresariales, soporte a tu cónyuge, celular de tus familiares.', type: 'number', name: 'otrosGastosMensuales' },
   ];
@@ -144,7 +144,7 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
     <div>
       {renderPregunta(preguntas[step], step)}
 
-      <div>
+      <div className='contaiButtons'>
         <button onClick={prevStep} disabled={step === 0}>
           Anterior
         </button>

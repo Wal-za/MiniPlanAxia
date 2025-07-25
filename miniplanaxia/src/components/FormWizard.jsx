@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import DatosPersonales from './sections/DatosPersonales';
 
 
@@ -18,9 +19,20 @@ export default function FormWizard() {
     if (sectionIndex < sections.length - 1) {
       setSectionIndex(sectionIndex + 1);
     } else {
-      console.log('Formulario completo:', { ...formData, ...sectionData });
-      alert('¡Formulario completo! Ver consola.');
-    }
+  const datosAEnviar = { ...formData, ...sectionData };
+
+  axios.post('http://localhost:3001/api/miniplan', datosAEnviar)
+    .then(response => {
+      console.log('Respuesta del servidor:', response.data);
+      alert('¡Formulario completo y enviado con éxito!');
+    })
+    .catch(error => {
+      console.error('Error al enviar el formulario:', error);
+      alert('Error al enviar el formulario. Revisa la consola.');
+    });
+
+  console.log('Formulario completo:', datosAEnviar);
+}
   };
 
   const prevSection = () => {
@@ -30,10 +42,10 @@ export default function FormWizard() {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+    <div  className='container'>
       <h2>Mini Plan Financiero</h2>
-      <h4 style={{ marginBottom: '10px' }}>
-      </h4>
+      
+     
 
       <CurrentSection
         onNext={nextSection}

@@ -5,6 +5,8 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
   const preguntas = [
     { label: '¿Qué asesor de Axia Finanzas Personales te recomendó este test?', name: 'recomendadoPor', type: 'text' },
     { label: 'Nombre completo', name: 'nombre', type: 'text' },
+    { label: 'Email', name: 'Email', type: 'text' },
+    { label: 'Celular/Whatsapp', name: 'celular', type: 'text' },
     { label: 'Fecha de nacimiento', name: 'nacimiento', type: 'date' },
     { label: 'Empresa donde trabajas', name: 'empresa', type: 'text' },
     { label: 'Cargo / ocupación', name: 'cargo', type: 'text' },

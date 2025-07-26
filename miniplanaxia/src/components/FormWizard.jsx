@@ -21,33 +21,31 @@ export default function FormWizard() {
     setSectionIndex(sectionIndex + 1);
   } else {
     const datosAEnviar = { ...formData, ...sectionData };
-    
-    axios.post('https://server-axia.vercel.app/api/',  datosAEnviar)
-    //axios.post('http://localhost:3001/api/miniplan', datosAEnviar)
-      .then(response => {
-        const { mensaje, resumenFinanciero } = response.data;
 
-        console.log('Respuesta del servidor:', mensaje);
-        console.log(' Resumen financiero:');
+    axios.post('https://server-axia.vercel.app/api/miniplan', datosAEnviar, {
+    //axios.post('http://localhost:3001/api/miniplan', datosAEnviar, {
+      responseType: 'blob'  // 🔥 Muy importante para recibir el PDF
+    })
+    .then(response => {
+      // Crear una URL temporal para el PDF
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
 
-        if (resumenFinanciero && Array.isArray(resumenFinanciero.resumen)) {
-          resumenFinanciero.resumen.forEach((linea, index) => {
-            console.log(`${index + 1}. ${linea}`);
-          });
-        } else {
-          console.warn('El resumen financiero no se recibió en el formato esperado.');
-        }
+      // Abrir el PDF en una nueva pestaña
+      window.open(url, '_blank');
 
-        alert('¡Formulario completo y enviado con éxito!');
-      })
-      .catch(error => {
-        console.error('Error al enviar el formulario:', error);
-        alert('Error al enviar el formulario. Revisa la consola.');
-      });
+      console.log('✅ PDF generado y abierto en una nueva pestaña.');
+      alert('¡Formulario completo y resumen generado con éxito!');
+    })
+    .catch(error => {
+      console.error('❌ Error al enviar el formulario:', error);
+      alert('Error al enviar el formulario. Revisa la consola.');
+    });
 
     console.log('📨 Formulario completo (enviado):', datosAEnviar);
   }
 };
+
 
 
   const prevSection = () => {

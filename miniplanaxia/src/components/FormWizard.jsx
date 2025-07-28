@@ -1,52 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatosPersonales from './sections/DatosPersonales';
 
-
 const sections = [
-  { component: DatosPersonales, name: 'Datos Personales' },  
+  { component: DatosPersonales, name: 'Datos Personales' },
 ];
 
 export default function FormWizard() {
-  const [sectionIndex, setSectionIndex] = useState(0);
-  const [formData, setFormData] = useState({});
+  const storedData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('wizardData')) || {} : {};
+  const storedStep = typeof window !== 'undefined' ? parseInt(localStorage.getItem('wizardStep'), 10) || 0 : 0;
+
+  const [sectionIndex, setSectionIndex] = useState(storedStep);
+  const [formData, setFormData] = useState(storedData);
 
   const CurrentSection = sections[sectionIndex].component;
-  const sectionName = sections[sectionIndex].name;
+
+  // Guardar en localStorage cada vez que cambia
+  useEffect(() => {
+    localStorage.setItem('wizardData', JSON.stringify(formData));
+  }, [formData]);
+
+  useEffect(() => {
+    localStorage.setItem('wizardStep', sectionIndex.toString());
+  }, [sectionIndex]);
 
   const nextSection = (sectionData) => {
-  setFormData(prev => ({ ...prev, ...sectionData }));
+    const newFormData = { ...formData, ...sectionData };
+    setFormData(newFormData);
 
-  if (sectionIndex < sections.length - 1) {
-    setSectionIndex(sectionIndex + 1);
-  } else {
-    const datosAEnviar = { ...formData, ...sectionData };
+    if (sectionIndex < sections.length - 1) {
+      setSectionIndex(sectionIndex + 1);
+    } else {
+      axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
+        responseType: 'blob'
+      })
+      .then(response => {
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        alert('¡Formulario completo y resumen generado con éxito!');
+        localStorage.removeItem('wizardData');
+        localStorage.removeItem('wizardStep');
+      })
+      .catch(error => {
+        console.error('❌ Error al enviar el formulario:', error);
+        alert('Error al enviar el formulario. Revisa la consola.');
+      });
 
-    axios.post('https://server-axia.vercel.app/api/miniplan', datosAEnviar, {
-    //axios.post('http://localhost:3001/api/miniplan', datosAEnviar, {
-      responseType: 'blob'  // 🔥 Muy importante para recibir el PDF
-    })
-    .then(response => {
-      // Crear una URL temporal para el PDF
-      const blob = new Blob([response.data], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-
-      // Abrir el PDF en una nueva pestaña
-      window.open(url, '_blank');
-
-      console.log('✅ PDF generado y abierto en una nueva pestaña.');
-      alert('¡Formulario completo y resumen generado con éxito!');
-    })
-    .catch(error => {
-      console.error('❌ Error al enviar el formulario:', error);
-      alert('Error al enviar el formulario. Revisa la consola.');
-    });
-
-    console.log('📨 Formulario completo (enviado):', datosAEnviar);
-  }
-};
-
-
+      console.log('📨 Formulario completo (enviado):', newFormData);
+    }
+  };
 
   const prevSection = () => {
     if (sectionIndex > 0) {
@@ -55,10 +58,8 @@ export default function FormWizard() {
   };
 
   return (
-    <div  className='container'>
+    <div className='container'>
       <h2>Mini Plan Financiero</h2>
-      
-     
 
       <CurrentSection
         onNext={nextSection}

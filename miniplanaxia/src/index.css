@@ -178,6 +178,7 @@ input[type=number] {
     transition: background-color 1e+08s, box-shadow 0.1s ease-out;
     box-shadow: rgba(1, 66, 172, 0.3) 0px 1px;
     background-color: transparent !important;
+    font-size: 100%;
   }
 
   button {

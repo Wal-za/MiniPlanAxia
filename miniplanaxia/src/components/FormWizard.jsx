@@ -31,14 +31,15 @@ export default function FormWizard() {
     if (sectionIndex < sections.length - 1) {
       setSectionIndex(sectionIndex + 1);
     } else {
-      axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
+    axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
+      //axios.post('http://localhost:3001/api/miniplan', newFormData, {
         responseType: 'blob'
       })
       .then(response => {
         const blob = new Blob([response.data], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         window.open(url, '_blank');
-        alert('¡Formulario completo y resumen generado con éxito!');
+        //alert('¡Formulario completo y resumen generado con éxito!');
         localStorage.removeItem('wizardData');
         localStorage.removeItem('wizardStep');
       })

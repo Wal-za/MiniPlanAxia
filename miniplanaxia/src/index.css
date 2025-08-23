@@ -72,7 +72,11 @@ button {
   border: none;
   border-radius: 4px;
   font-size: 1rem;
-  cursor: pointer;
+  cursor: pointer; 
+}
+
+button:nth-of-type(2) {
+   margin-left: 10%;
 }
 
 .hint {
@@ -84,7 +88,7 @@ button {
 
 .contaiButtons {
   display: flex;
-  justify-content: space-between;                  
+  justify-content: center;                  
   padding: 30px 10px;  
 }
 

@@ -31,8 +31,8 @@ export default function FormWizard() {
     if (sectionIndex < sections.length - 1) {
       setSectionIndex(sectionIndex + 1);
     } else {
-    axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
-      //axios.post('http://localhost:3001/api/miniplan', newFormData, {
+    //axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
+    axios.post('http://localhost:3001/api/miniplan', newFormData, {
         responseType: 'blob'
       })
       .then(response => {

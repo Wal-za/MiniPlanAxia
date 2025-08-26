@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export default function FormularioCompletoUnificado({ onNext, formData }) {
+
  const preguntas = [
   { label: '¿Qué asesor de Axia Finanzas Personales te recomendó este test?', name: 'recomendadoPor', type: 'text' },
   { label: 'Nombre completo', name: 'nombre', type: 'text' },
@@ -183,41 +184,67 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
     );
   };
 
-  const renderPregunta = (pregunta, index) => (
+// Función para formatear números con separadores de miles
+const formatNumber = (value) => {
+  if (!value) return '';
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+};
+
+// Función para renderizar la pregunta
+const renderPregunta = (pregunta, index) => (
   <div key={index}>
     <label>{pregunta.label}</label>
 
-    {/* Si existe un hint, lo mostramos */}
+    {/* Hint opcional */}
     {pregunta.hint && <small>{pregunta.hint}</small>}
 
-    {/* Nueva: mostramos la descripción si existe */}
+    {/* Descripción opcional */}
     {pregunta.descripcion && (
       <small style={{ display: 'block', marginBottom: '8px', color: '#666' }}>
         {pregunta.descripcion}
       </small>
     )}
 
+    {/* Input de texto, número (formateado), etc */}
     {pregunta.type !== 'checkbox' && pregunta.type !== 'radio' ? (
       <input
         placeholder='Escribe aquí tu respuesta...'
-        type={pregunta.type}
-        value={localData[pregunta.name] || ''}
-        onChange={(e) =>
-          setLocalData({ ...localData, [pregunta.name]: e.target.value })
+        type={pregunta.type === 'number' ? 'text' : pregunta.type}
+        value={
+          pregunta.type === 'number'
+            ? formatNumber(localData[pregunta.name] || '')
+            : localData[pregunta.name] || ''
         }
+        onChange={(e) => {
+          const rawValue = e.target.value.replace(/\./g, ''); // eliminar puntos
+          
+          if (pregunta.type === 'number') {
+            // solo permite dígitos
+            if (/^\d*$/.test(rawValue)) {
+              setLocalData({ ...localData, [pregunta.name]: rawValue });
+            }
+          } else {
+            setLocalData({ ...localData, [pregunta.name]: e.target.value });
+          }
+        }}
       />
     ) : pregunta.type === 'checkbox' ? (
       pregunta.options.map((option, idx) => (
         <div className="checkboxObjetivos" key={idx}>
           <input
             type="checkbox"
-            checked={localData[pregunta.name].includes(option)}
+            checked={localData[pregunta.name]?.includes(option)}
             onChange={() => {
               const newObj = { ...localData };
               if (newObj[pregunta.name].includes(option)) {
-                newObj[pregunta.name] = newObj[pregunta.name].filter((item) => item !== option);
+                newObj[pregunta.name] = newObj[pregunta.name].filter(
+                  (item) => item !== option
+                );
               } else {
-                newObj[pregunta.name] = [...newObj[pregunta.name], option];
+                newObj[pregunta.name] = [
+                  ...(newObj[pregunta.name] || []),
+                  option,
+                ];
               }
               setLocalData(newObj);
             }}

@@ -25,32 +25,44 @@ export default function FormWizard() {
   }, [sectionIndex]);
 
   const nextSection = (sectionData) => {
-    const newFormData = { ...formData, ...sectionData };
-    setFormData(newFormData);
+  const newFormData = { ...formData, ...sectionData };
 
-    if (sectionIndex < sections.length - 1) {
-      setSectionIndex(sectionIndex + 1);
+  
+  const cleanedFormData = {};
+  for (const key in newFormData) {
+    const value = newFormData[key];
+
+    if (typeof value === 'string' && /^\d{1,3}(\.\d{3})*$/.test(value)) {
+      cleanedFormData[key] = value.replace(/\./g, ''); 
     } else {
-    //axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
-    axios.post('http://localhost:3001/api/miniplan', newFormData, {
-        responseType: 'blob'
-      })
-      .then(response => {
-        const blob = new Blob([response.data], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
-        //alert('¡Formulario completo y resumen generado con éxito!');
-        localStorage.removeItem('wizardData');
-        localStorage.removeItem('wizardStep');
-      })
-      .catch(error => {
-        console.error('❌ Error al enviar el formulario:', error);
-        alert('Error al enviar el formulario. Revisa la consola.');
-      });
-
-      console.log('📨 Formulario completo (enviado):', newFormData);
+      cleanedFormData[key] = value; 
     }
-  };
+  }
+
+  setFormData(newFormData);
+
+  if (sectionIndex < sections.length - 1) {
+    setSectionIndex(sectionIndex + 1);
+  } else {
+    axios.post('http://localhost:3001/api/miniplan', cleanedFormData, {
+      responseType: 'blob'
+    })
+    .then(response => {
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+      localStorage.removeItem('wizardData');
+      localStorage.removeItem('wizardStep');
+    })
+    .catch(error => {
+      console.error('❌ Error al enviar el formulario:', error);
+      alert('Error al enviar el formulario. Revisa la consola.');
+    });
+
+    console.log('📨 Formulario completo (enviado):', cleanedFormData);
+  }
+};
+
 
   const prevSection = () => {
     if (sectionIndex > 0) {

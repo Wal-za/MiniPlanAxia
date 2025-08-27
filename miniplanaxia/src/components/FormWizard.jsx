@@ -75,6 +75,7 @@ export default function FormWizard() {
 
   return (
     <div className='container'>
+      <h2></h2>
 
       <CurrentSection
         onNext={nextSection}

@@ -46,6 +46,7 @@ export default function FormWizard() {
   } else {
 
     //axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
+    
     axios.post('http://localhost:3001/api/miniplan', cleanedFormData, {
       responseType: 'blob'
     })

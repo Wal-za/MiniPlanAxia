@@ -75,7 +75,6 @@ export default function FormWizard() {
 
   return (
     <div className='container'>
-      <h2>Mini Plan Financiero</h2>
 
       <CurrentSection
         onNext={nextSection}

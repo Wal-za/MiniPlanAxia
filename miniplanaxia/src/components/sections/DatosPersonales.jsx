@@ -32,8 +32,18 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
   { label: '¿Cuál es el ingreso neto que entra a tu cuenta de manera mensual?', name: 'ingresoNetoMensual', type: 'number' },
   { label: '¿Recibes algún ingreso trimestral por cumplimiento?', name: 'ingresoTrimestral', type: 'number' },
   { label: '¿Recibes ingresos adicionales mensuales?', name: 'ingresosAdicionales', type: 'number' },
-  { label: '¿Recibes prima?', name: 'primaAnual', type: 'number' },
-  { label: '¿Recibes bonificaciones?', name: 'bonificacionesAnuales', type: 'number' },
+  {
+  label: '¿Recibes prima?',
+  name: 'primaAnual',
+  type: 'number',
+  descripcion: 'Si recibes prima, ingresa el valor total que recibes en el año (suma de la prima de junio y la de diciembre).'
+},
+{
+  label: '¿Recibes bonificaciones?',
+  name: 'bonificacionesAnuales',
+  type: 'number',
+  descripcion: 'Si recibes bonificaciones, ingresa el valor total anual de tus bonos.'
+},
   {
     label: '¿Realizas algún tipo de ahorro mensual?',
     name: 'ahorroMensual',
@@ -83,10 +93,10 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
     descripcion: 'Sumatoria de cursos de inglés, talleres, yoga, educativos, etc. Pon el valor mensual destinado.'
   },
   {
-    label: '¿Tienes hijos? ¿Cuánto gastas en ellos mensualmente?',
-    name: 'hijos',
-    type: 'number',
-    descripcion: 'Ejemplo: Sumatoria de colegio, transporte, mesada, cursos extracurriculares, pañales, leche, niñera, ropa, psicólogo.'
+  label: '¿Tienes hijos? ¿Cuánto gastas en ellos mensualmente?',
+  name: 'hijos',
+  type: 'number',
+  descripcion: 'Si respondiste que sí, anota el valor mensual de los gastos destinados a ellos. Ejemplo: Sumatoria de colegio, transporte, mesada, cursos extracurriculares, pañales, leche, niñera, ropa, psicólogo. Si no tienes hijos, deja este campo en blanco.'
   },
   {
     label: '¿Realizas pagos anuales por seguros?',
@@ -112,7 +122,13 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
     type: 'number',
     descripcion: 'Si es así, por favor escribe cuánto pagas por: impuesto vehicular, predial, declaración de renta, etc.'
   },
-  { label: 'Por favor escribe el valor total de tus activos.', name: 'patrimonio', type: 'number' },
+  {
+  label: 'Por favor escribe el valor total de tus activos.',
+  name: 'patrimonio',
+  type: 'number',
+  descripcion: 'Ejemplo: Sumatoria de carro, casa, cuentas de ahorro, inversiones en bolsa, fondos de pensiones voluntarias, inversiones en acciones y demás.'
+  },
+
   { label: '¿Cuentas con un seguro de vida?', type: 'radio', name: 'seguroVida', options: ['Sí', 'No'] },
   { label: '¿Tienes alguien que dependa económicamente de ti?', type: 'radio', name: 'tieneHijosDependientes', options: ['Sí', 'No'] },
   { label: '¿Cuentas con un seguro de incapacidad?', type: 'radio', name: 'seguroIncapacidad', options: ['Sí', 'No'] },
@@ -122,9 +138,15 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
     label: '¿Tienes plan B para tu pensión?',
     name: 'planB',
     type: 'text',
-    descripcion: 'Puede ser: Fondo de pensiones voluntarias, plan de ahorro mensual, inversiones u otro tipo de respaldo económico.'
+    descripcion: 'Puede ser: Fondo de pensiones voluntarias, plan de ahorro mensual, inversiones u otro tipo de respaldo económico. escribe cuál es tu plan B.'
   },
-  { label: 'Por favor anota la totalidad del valor de tus deudas.', name: 'deuda', type: 'number' },
+  {
+  label: 'Por favor anota la totalidad del valor de tus deudas.',
+  name: 'deuda',
+  type: 'number',
+  descripcion: 'Incluye: Sumatoria de tarjetas de crédito, créditos de libre inversión, vehicular, deudas personales, hipotecario, leasing.'
+  },
+
   { label: '¿Cuánto destinas de manera mensual a todas las cuotas de tus deudas?', name: 'totalDeudasMensuales', type: 'number' },
   { label: '¿Tienes otros gastos mensuales?', name: 'otrosGastosMensuales', type: 'number' },
 ];

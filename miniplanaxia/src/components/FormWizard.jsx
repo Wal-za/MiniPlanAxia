@@ -24,10 +24,9 @@ export default function FormWizard() {
     localStorage.setItem('wizardStep', sectionIndex.toString());
   }, [sectionIndex]);
 
-  const nextSection = (sectionData) => {
+const nextSection = (sectionData) => {
   const newFormData = { ...formData, ...sectionData };
 
-  
   const cleanedFormData = {};
   for (const key in newFormData) {
     const value = newFormData[key];
@@ -45,6 +44,29 @@ export default function FormWizard() {
     setSectionIndex(sectionIndex + 1);
   } else {
 
+    // *** Agrego conversión de campos vacíos a null ***
+    for (const key in cleanedFormData) {
+      const value = cleanedFormData[key];
+      if (value === '' || value === undefined) {
+        cleanedFormData[key] = null;
+      }
+    }
+
+    // --- Mostrar mensaje de carga ---
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'axia-loading-message';
+    loadingDiv.textContent = 'Axia Cargando...';
+    loadingDiv.style.position = 'fixed';
+    loadingDiv.style.top = '10px';
+    loadingDiv.style.right = '10px';
+    loadingDiv.style.padding = '10px 20px';
+    loadingDiv.style.backgroundColor = '#000';
+    loadingDiv.style.color = '#fff';
+    loadingDiv.style.fontWeight = 'bold';
+    loadingDiv.style.borderRadius = '5px';
+    loadingDiv.style.zIndex = '9999';
+    document.body.appendChild(loadingDiv);
+
     //axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
     
     axios.post('http://localhost:3001/api/miniplan', cleanedFormData, {
@@ -60,11 +82,19 @@ export default function FormWizard() {
     .catch(error => {
       console.error('❌ Error al enviar el formulario:', error);
       alert('Error al enviar el formulario. Revisa la consola.');
+    })
+    .finally(() => {
+      // --- Quitar mensaje de carga ---
+      const loadingElem = document.getElementById('axia-loading-message');
+      if (loadingElem) {
+        loadingElem.remove();
+      }
     });
 
     console.log('📨 Formulario completo (enviado):', cleanedFormData);
   }
 };
+
 
 
   const prevSection = () => {

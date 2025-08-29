@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 
 export default function FormularioCompletoUnificado({ onNext, formData }) {
+  const [aceptaTerminos, setAceptaTerminos] = useState(false);
+
 
  const preguntas = [
   { label: '¿Qué asesor de Axia Finanzas Personales te recomendó este test?', name: 'recomendadoPor', type: 'text' },
@@ -227,7 +229,7 @@ const renderPregunta = (pregunta, index) => (
       </small>
     )}
 
-    {/* Input de texto, número (formateado), etc */}
+    {/* Input de texto, número, etc */}
     {pregunta.type !== 'checkbox' && pregunta.type !== 'radio' ? (
       <input
         placeholder='Escribe aquí tu respuesta...'
@@ -238,10 +240,8 @@ const renderPregunta = (pregunta, index) => (
             : localData[pregunta.name] || ''
         }
         onChange={(e) => {
-          const rawValue = e.target.value.replace(/\./g, ''); // eliminar puntos
-          
+          const rawValue = e.target.value.replace(/\./g, '');
           if (pregunta.type === 'number') {
-            // solo permite dígitos
             if (/^\d*$/.test(rawValue)) {
               setLocalData({ ...localData, [pregunta.name]: rawValue });
             }
@@ -255,18 +255,14 @@ const renderPregunta = (pregunta, index) => (
         <div className="checkboxObjetivos" key={idx}>
           <input
             type="checkbox"
-            checked={localData[pregunta.name]?.includes(option)}
+            checked={localData[pregunta.name]?.includes(option) || false}
             onChange={() => {
               const newObj = { ...localData };
-              if (newObj[pregunta.name].includes(option)) {
-                newObj[pregunta.name] = newObj[pregunta.name].filter(
-                  (item) => item !== option
-                );
+              const current = newObj[pregunta.name] || [];
+              if (current.includes(option)) {
+                newObj[pregunta.name] = current.filter(item => item !== option);
               } else {
-                newObj[pregunta.name] = [
-                  ...(newObj[pregunta.name] || []),
-                  option,
-                ];
+                newObj[pregunta.name] = [...current, option];
               }
               setLocalData(newObj);
             }}
@@ -294,22 +290,59 @@ const renderPregunta = (pregunta, index) => (
 );
 
 
-  return (
-    <div>
-      {renderPregunta(preguntas[step], step)}
 
-      <div className='contaiButtons'>
-        <button onClick={prevStep} disabled={step === 0}>
-          Anterior
-        </button>
-        <button onClick={nextStep}>
-          {step === TOTAL_STEPS - 1 ? 'Enviar' : 'Siguiente'}
-        </button>
+ return (
+  <div>
+    {renderPregunta(preguntas[step], step)}
 
-      {  /*     
-      <button onClick={restartForm} >Reiniciar formulario</button>
-      */}        
-      </div>
+    {/* Checkbox de Términos y condiciones solo en el último paso */}
+    {step === TOTAL_STEPS - 1 && (
+      <div
+  style={{
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'baseline',
+    fontSize: '14px',
+  }}
+>
+  <input
+    type="checkbox"
+    id="terminos"
+    checked={aceptaTerminos}
+    onChange={(e) => setAceptaTerminos(e.target.checked)}
+    style={{ margin: 0, position: 'relative', top: '1px' }}
+  />
+  <label htmlFor="terminos" style={{ marginLeft: '8px' }}>
+    Acepto los{' '}
+    <a
+      href="https://axia.com.co/"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ color: '#007BFF', textDecoration: 'none' }}
+    >
+      términos y condiciones
+    </a>
+  </label>
+</div>
+
+    )}
+
+    <div className='contaiButtons'>
+      <button onClick={prevStep} disabled={step === 0}>
+        Anterior
+      </button>
+
+      <button
+        onClick={nextStep}
+        disabled={step === TOTAL_STEPS - 1 && !aceptaTerminos}
+      >
+        {step === TOTAL_STEPS - 1 ? 'Enviar' : 'Siguiente'}
+      </button>
+
+      {/* <button onClick={restartForm}>Reiniciar formulario</button> */}
     </div>
-  );
+  </div>
+);
+
 }

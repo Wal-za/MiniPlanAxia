@@ -115,6 +115,14 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+button:disabled {
+  background-color: #ccc;
+  color: #666;           
+  cursor: not-allowed;    
+  opacity: 0.6;         
+  border: 1px solid #999; 
+}
+
 
 /* MEDIA QUERY PARA MÓVILES: replica exacta del diseño */
 @media (max-width: 600px) {

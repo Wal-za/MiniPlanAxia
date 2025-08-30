@@ -149,8 +149,19 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
   descripcion: 'Incluye: Sumatoria de tarjetas de crédito, créditos de libre inversión, vehicular, deudas personales, hipotecario, leasing.'
   },
 
-  { label: '¿Cuánto destinas de manera mensual a todas las cuotas de tus deudas?', name: 'totalDeudasMensuales', type: 'number' },
-  { label: '¿Tienes otros gastos mensuales?', name: 'otrosGastosMensuales', type: 'number' },
+{
+  label: '¿Cuánto destinas de manera mensual a todas las cuotas de tus deudas?',
+  name: 'totalDeudasMensuales',
+  type: 'number',
+  descripcion: 'Incluye la sumatoria de pagos mensuales de tarjetas de crédito, créditos de libre inversión, vehículos, deudas personales, hipotecario, leasing, entre otros.'
+},
+{
+  label: '¿Tienes otros gastos mensuales?',
+  name: 'otrosGastosMensuales',
+  type: 'number',
+  descripcion: 'Sumatoria de ayuda a familiares, diezmos o donaciones, pagos de arriendo de tu consultorio u oficina, asistencia de personal como secretaria o asistente, celulares empresariales, soporte económico a tu cónyuge, celular de tus familiares, entre otros.'
+}
+
 ];
 
 

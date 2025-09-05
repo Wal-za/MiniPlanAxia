@@ -12,6 +12,7 @@ export default function FormWizard() {
 
   const [sectionIndex, setSectionIndex] = useState(storedStep);
   const [formData, setFormData] = useState(storedData);
+  const [popupBlocked, setPopupBlocked] = useState(false); // Nuevo estado para manejar si la ventana está bloqueada
 
   const CurrentSection = sections[sectionIndex].component;
 
@@ -24,87 +25,106 @@ export default function FormWizard() {
     localStorage.setItem('wizardStep', sectionIndex.toString());
   }, [sectionIndex]);
 
-const nextSection = (sectionData) => {
-  const newFormData = { ...formData, ...sectionData };
-
-  const cleanedFormData = {};
-  for (const key in newFormData) {
-    const value = newFormData[key];
-
-    if (typeof value === 'string' && /^\d{1,3}(\.\d{3})*$/.test(value)) {
-      cleanedFormData[key] = value.replace(/\./g, ''); 
+  const handlePopup = () => {
+    const popup = window.open('https://ejemplo.com', '_blank', 'width=600,height=400');
+    
+    if (!popup) {
+      setPopupBlocked(true);
+      alert('Por favor, habilita las ventanas emergentes en tu navegador para continuar.');
     } else {
-      cleanedFormData[key] = value; 
+      setPopupBlocked(false);
     }
-  }
+  };
 
-  setFormData(newFormData);
+  const nextSection = (sectionData) => {
+    const newFormData = { ...formData, ...sectionData };
 
-  if (sectionIndex < sections.length - 1) {
-    setSectionIndex(sectionIndex + 1);
-  } else {
-
-    // *** Agrego conversión de campos vacíos a null ***
-    for (const key in cleanedFormData) {
-      const value = cleanedFormData[key];
-      if (value === '' || value === undefined) {
-        cleanedFormData[key] = null;
+    const cleanedFormData = {};
+    for (const key in newFormData) {
+      const value = newFormData[key];
+      if (typeof value === 'string' && /^\d{1,3}(\.\d{3})*$/.test(value)) {
+        cleanedFormData[key] = value.replace(/\./g, ''); 
+      } else {
+        cleanedFormData[key] = value; 
       }
     }
 
-    // --- Mostrar mensaje de carga ---
-    const loadingDiv = document.createElement('div');
-    loadingDiv.id = 'axia-loading-message';
-    loadingDiv.textContent = 'Axia Cargando...';
-    loadingDiv.style.position = 'fixed';
-    loadingDiv.style.top = '10px';
-    loadingDiv.style.right = '10px';
-    loadingDiv.style.padding = '10px 20px';
-    loadingDiv.style.backgroundColor = '#000';
-    loadingDiv.style.color = '#fff';
-    loadingDiv.style.fontWeight = 'bold';
-    loadingDiv.style.borderRadius = '5px';
-    loadingDiv.style.zIndex = '9999';
-    document.body.appendChild(loadingDiv);
+    setFormData(newFormData);
 
-    axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
-    
-    //axios.post('http://localhost:3001/api/miniplan', cleanedFormData, {
-      responseType: 'blob'
-    })
-    .then(response => {
-      const blob = new Blob([response.data], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');      
+    if (sectionIndex < sections.length - 1) {
+      setSectionIndex(sectionIndex + 1);
+    } else {
+      // Agregar la lógica de ventana emergente aquí
+      handlePopup();
 
-      localStorage.removeItem('formularioData');
-      localStorage.removeItem('formularioStep');
-      localStorage.removeItem('wizardData');
-      localStorage.removeItem('wizardStep');
+      // *** Agrego conversión de campos vacíos a null ***
+      for (const key in cleanedFormData) {
+        const value = cleanedFormData[key];
+        if (value === '' || value === undefined) {
+          cleanedFormData[key] = null;
+        }
+      }
 
+      // --- Mostrar mensaje de carga ---
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = 'axia-loading-message';
+      loadingDiv.textContent = 'Axia Cargando...';
+      loadingDiv.style.position = 'fixed';
+      loadingDiv.style.top = '10px';
+      loadingDiv.style.right = '10px';
+      loadingDiv.style.padding = '10px 20px';
+      loadingDiv.style.backgroundColor = '#000';
+      loadingDiv.style.color = '#fff';
+      loadingDiv.style.fontWeight = 'bold';
+      loadingDiv.style.borderRadius = '5px';
+      loadingDiv.style.zIndex = '9999';
+      document.body.appendChild(loadingDiv);
 
+       //axios.post('http://localhost:3001/api/miniplan', cleanedFormData, {
+
+      axios.post('https://server-axia.vercel.app/api/miniplan', cleanedFormData, {
+        responseType: 'blob'
+      })
+      .then(response => {
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const ventanaPdf = window.open(url, '_blank');
+
+    // Verificar si la ventana emergente se abrió correctamente
+    if (ventanaPdf) {
+        // Si se abrió correctamente, realizar las acciones
+        localStorage.removeItem('formularioData');
+        localStorage.removeItem('formularioStep');
+        localStorage.removeItem('wizardData');
+        localStorage.removeItem('wizardStep');
+
+        // Redirigir después de 3 segundos
         setTimeout(function() {
-          window.location.href = 'https://axia.com.co/';
-        }, 3000); 
+            ventanaPdf.close();  // Cerrar la ventana del PDF (si lo deseas)
+            window.location.href = 'https://axia.com.co/';  // Redirigir
+        }, 3000);  // Espera 3 segundos antes de redirigir
+    } else {
+        // Si la ventana emergente no se pudo abrir (por ejemplo, está bloqueada)
+        alert('No se pudo abrir el PDF. Por favor, habilita las ventanas emergentes en tu navegador.');
 
-    })
-    .catch(error => {
-      console.error('❌ Error al enviar el formulario:', error);
-      alert('Error al enviar el formulario. Revisa la consola.');
-    })
-    .finally(() => {
-      // --- Quitar mensaje de carga ---
-      const loadingElem = document.getElementById('axia-loading-message');
-      if (loadingElem) {
-        loadingElem.remove();
-      }
-    });
+        // NO hacer nada, no redirigir, y no cerrar el PDF
+        // Puedes aquí manejar otras acciones si es necesario, pero no rediriges
+    }
 
-    
-  }
-};
-
-//
+      })
+      .catch(error => {
+        console.error('❌ Error al enviar el formulario:', error);
+        alert('Error al enviar el formulario. Revisa la consola.');
+      })
+      .finally(() => {
+        // --- Quitar mensaje de carga ---
+        const loadingElem = document.getElementById('axia-loading-message');
+        if (loadingElem) {
+          loadingElem.remove();
+        }
+      });
+    }
+  };
 
   const prevSection = () => {
     if (sectionIndex > 0) {
@@ -127,6 +147,9 @@ const nextSection = (sectionData) => {
           <button onClick={prevSection}>Atrás</button>
         )}
       </div>
+      
+      {/* Si la ventana emergente fue bloqueada, mostramos un mensaje */}
+      {popupBlocked && <div style={{ color: 'red' }}>¡Atención! Las ventanas emergentes están bloqueadas en tu navegador.</div>}
     </div>
   );
 }

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
+import PoliticaDatosModal from '../PoliticaDatosModal';
 
 export default function FormularioCompletoUnificado({ onNext, formData }) {
   const [aceptaTerminos, setAceptaTerminos] = useState(false);
 
-
- const preguntas = [
+     const preguntas = [
   { label: '¿Qué asesor de Axia Finanzas Personales te recomendó este test?', name: 'recomendadoPor', type: 'text' },
   { label: 'Nombre completo', name: 'nombre', type: 'text' },
   { label: 'Email', name: 'Email', type: 'text' },
@@ -164,7 +164,6 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
 
 ];
 
-
   const TOTAL_STEPS = preguntas.length;
 
   const storedData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('formularioData')) || {} : {};
@@ -193,12 +192,11 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
     if (step < TOTAL_STEPS - 1) {
       setStep(step + 1);
     } else {
-
       localStorage.removeItem('formularioData');
       localStorage.removeItem('formularioStep');
       localStorage.removeItem('wizardData');
       localStorage.removeItem('wizardStep');
-      
+
       onNext(localData);
     }
   };
@@ -217,143 +215,179 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
         return acc;
       }, {})
     );
+    setAceptaTerminos(false);
   };
 
-// Función para formatear números con separadores de miles
-const formatNumber = (value) => {
-  if (!value) return '';
-  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-};
+  // ✅ Formatea números con puntos de miles
+  const formatNumber = (value) => {
+    if (!value) return '';
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  };
 
-// Función para renderizar la pregunta
-const renderPregunta = (pregunta, index) => (
-  <div key={index}>
-    <label>{pregunta.label}</label>
+  // ✅ Render de cada pregunta
+  const renderPregunta = (pregunta, index) => (
+    <div key={index} style={{ marginBottom: '20px' }}>
+      <label style={{ fontWeight: '600', fontSize: '18px' }}>
+        {pregunta.label}
+      </label>
+      {pregunta.descripcion && (
+        <p style={{ fontSize: '12px', marginTop: '4px', fontWeight: 'normal' }}>
+          {pregunta.descripcion}
+        </p>
+      )}
 
-    {/* Hint opcional */}
-    {pregunta.hint && <small>{pregunta.hint}</small>}
-
-    {/* Descripción opcional */}
-    {pregunta.descripcion && (
-      <small style={{ display: 'block', marginBottom: '8px', color: '#666' }}>
-        {pregunta.descripcion}
-      </small>
-    )}
-
-    {/* Input de texto, número, etc */}
-    {pregunta.type !== 'checkbox' && pregunta.type !== 'radio' ? (
-      <input
-        placeholder='Escribe aquí tu respuesta...'
-        type={pregunta.type === 'number' ? 'text' : pregunta.type}
-        value={
-          pregunta.type === 'number'
-            ? formatNumber(localData[pregunta.name] || '')
-            : localData[pregunta.name] || ''
-        }
-        onChange={(e) => {
-          const rawValue = e.target.value.replace(/\./g, '');
-          if (pregunta.type === 'number') {
-            if (/^\d*$/.test(rawValue)) {
-              setLocalData({ ...localData, [pregunta.name]: rawValue });
-            }
-          } else {
-            setLocalData({ ...localData, [pregunta.name]: e.target.value });
+      {/* ✅ Input de número formateado */}
+      {pregunta.type === 'number' ? (
+        <input
+          type="text"
+          placeholder="Escribe aquí tu respuesta..."
+          inputMode="numeric"
+          value={formatNumber(localData[pregunta.name])}
+          onChange={(e) => {
+            const raw = e.target.value.replace(/\./g, '').replace(/\D/g, '');
+            setLocalData({ ...localData, [pregunta.name]: raw });
+          }}
+          autoComplete="off"
+        />
+      ) : pregunta.type === 'text' || pregunta.type === 'date' ? (
+        <input
+          placeholder="Escribe aquí tu respuesta..."
+          type={pregunta.type}
+          value={localData[pregunta.name] || ''}
+          onChange={(e) =>
+            setLocalData({ ...localData, [pregunta.name]: e.target.value })
           }
-        }}
-      />
-    ) : pregunta.type === 'checkbox' ? (
-      pregunta.options.map((option, idx) => (
-        <div className="checkboxObjetivos" key={idx}>
+          autoComplete="off"
+        />
+      ) : pregunta.type === 'checkbox' ? (
+        <div style={{ marginTop: '10px' }}>
+          {pregunta.options.map((option, i) => (
+            <label key={i} style={{ display: 'block', marginBottom: '8px', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={(localData[pregunta.name] || []).includes(option)}
+                onChange={(e) => {
+                  let newValues = [...(localData[pregunta.name] || [])];
+                  if (e.target.checked) {
+                    newValues.push(option);
+                  } else {
+                    newValues = newValues.filter((v) => v !== option);
+                  }
+                  setLocalData({ ...localData, [pregunta.name]: newValues });
+                }}
+                style={{ marginRight: '8px', cursor: 'pointer' }}
+              />
+              {option}
+            </label>
+          ))}
+        </div>
+      ) : pregunta.type === 'radio' ? (
+        <div style={{ marginTop: '10px' }}>
+          {pregunta.options.map((option, i) => (
+            <label key={i} style={{ display: 'block', marginBottom: '8px', cursor: 'pointer' }}>
+              <input
+                type="radio"
+                name={pregunta.name}
+                checked={localData[pregunta.name] === option}
+                onChange={() => setLocalData({ ...localData, [pregunta.name]: option })}
+                style={{ marginRight: '8px', cursor: 'pointer' }}
+              />
+              {option}
+            </label>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+
+  return (
+    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+      {/* Barra de progreso */}
+      <div style={{ height: '18px', backgroundColor: '#e0e0e0', borderRadius: '6px', marginBottom: '20px' }}>
+        <div
+          style={{
+            height: '8px',
+            width: `${((step + 1) / TOTAL_STEPS) * 100}%`,
+            backgroundColor: '#007bff',
+            borderRadius: '6px',
+            transition: 'width 0.3s ease-in-out',
+          }}
+        />
+      </div>
+
+      {/* Pregunta actual */}
+      {renderPregunta(preguntas[step], step)}
+
+      {/* Checkbox para aceptar términos SOLO en el último paso */}
+      {step === TOTAL_STEPS - 1 && (
+        <div style={{ marginBottom: '20px' }}>
           <input
             type="checkbox"
-            checked={localData[pregunta.name]?.includes(option) || false}
-            onChange={() => {
-              const newObj = { ...localData };
-              const current = newObj[pregunta.name] || [];
-              if (current.includes(option)) {
-                newObj[pregunta.name] = current.filter(item => item !== option);
-              } else {
-                newObj[pregunta.name] = [...current, option];
-              }
-              setLocalData(newObj);
+            id="terminos"
+            checked={aceptaTerminos}
+            onChange={(e) => setAceptaTerminos(e.target.checked)}
+            style={{ margin: 0, position: 'relative', top: '1px' }}
+          />
+          <PoliticaDatosModal />
+        </div>
+      )}
+
+      {/* Botones de navegación */}
+      <div style={{ display: 'flex', marginTop: '30px' }}>
+        <button
+          onClick={prevStep}
+          disabled={step === 0}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: step === 0 ? 'not-allowed' : 'pointer',
+            opacity: step === 0 ? 0.5 : 1,
+          }}
+          type="button"
+        >
+          Anterior
+        </button>
+
+        {step < TOTAL_STEPS - 1 ? (
+          <button
+            onClick={nextStep}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
             }}
-          />
-          <label>{option}</label>
-        </div>
-      ))
-    ) : pregunta.type === 'radio' ? (
-      pregunta.options.map((option, idx) => (
-        <div key={idx}>
-          <input
-            type="radio"
-            name={pregunta.name}
-            value={option}
-            checked={localData[pregunta.name] === option}
-            onChange={() =>
-              setLocalData({ ...localData, [pregunta.name]: option })
-            }
-          />
-          <label>{option}</label>
-        </div>
-      ))
-    ) : null}
-  </div>
-);
+            type="button"
+          >
+            Siguiente
+          </button>
+        ) : (
+          <button
+            onClick={nextStep}
+            disabled={!aceptaTerminos}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: !aceptaTerminos ? '#999' : '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: !aceptaTerminos ? 'not-allowed' : 'pointer',
+            }}
+            type="button"
+          >
+            Enviar
+          </button>
+        )}
+      </div>
 
-
-
- return (
-  <div>
-    {renderPregunta(preguntas[step], step)}
-
-    {/* Checkbox de Términos y condiciones solo en el último paso */}
-    {step === TOTAL_STEPS - 1 && (
-      <div
-  style={{
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'baseline',
-    fontSize: '14px',
-  }}
->
-  <input
-    type="checkbox"
-    id="terminos"
-    checked={aceptaTerminos}
-    onChange={(e) => setAceptaTerminos(e.target.checked)}
-    style={{ margin: 0, position: 'relative', top: '1px' }}
-  />
-  <label htmlFor="terminos" style={{ marginLeft: '8px' }}>
-    Acepto los{' '}
-    <a
-      href="https://axia.com.co/"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ color: '#007BFF', textDecoration: 'none' }}
-    >
-      términos y condiciones
-    </a>
-  </label>
-</div>
-
-    )}
-
-    <div className='contaiButtons'>
-      <button onClick={prevStep} disabled={step === 0}>
-        Anterior
-      </button>
-
-      <button
-        onClick={nextStep}
-        disabled={step === TOTAL_STEPS - 1 && !aceptaTerminos}
-      >
-        {step === TOTAL_STEPS - 1 ? 'Enviar' : 'Siguiente'}
-      </button>
-
-      {/* <button onClick={restartForm}>Reiniciar formulario</button> */}
+      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+       
+      </div>
     </div>
-  </div>
-);
-
+  );
 }

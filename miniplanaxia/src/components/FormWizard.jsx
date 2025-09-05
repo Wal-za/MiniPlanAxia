@@ -95,7 +95,7 @@ const nextSection = (sectionData) => {
   }
 };
 
-
+//
 
   const prevSection = () => {
     if (sectionIndex > 0) {

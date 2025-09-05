@@ -191,11 +191,7 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
   const nextStep = () => {
     if (step < TOTAL_STEPS - 1) {
       setStep(step + 1);
-    } else {
-      localStorage.removeItem('formularioData');
-      localStorage.removeItem('formularioStep');
-      localStorage.removeItem('wizardData');
-      localStorage.removeItem('wizardStep');
+    } else {     
 
       onNext(localData);
     }

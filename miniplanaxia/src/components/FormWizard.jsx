@@ -67,9 +67,9 @@ const nextSection = (sectionData) => {
     loadingDiv.style.zIndex = '9999';
     document.body.appendChild(loadingDiv);
 
-   // axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
+    axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
     
-    axios.post('http://localhost:3001/api/miniplan', cleanedFormData, {
+    //axios.post('http://localhost:3001/api/miniplan', cleanedFormData, {
       responseType: 'blob'
     })
     .then(response => {
@@ -85,7 +85,7 @@ const nextSection = (sectionData) => {
 
         setTimeout(function() {
           window.location.href = 'https://axia.com.co/';
-        }, 10000); 
+        }, 3000); 
 
     })
     .catch(error => {

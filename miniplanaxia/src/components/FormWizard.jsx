@@ -73,24 +73,31 @@ const nextSection = (sectionData) => {
       responseType: 'blob'
     })
     .then(response => {
-    const blob = new Blob([response.data], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
+  const blob = new Blob([response.data], { type: 'application/pdf' });
+  const url = URL.createObjectURL(blob);
 
+  try {
     const ventanaPdf = window.open(url, '_blank');
 
     if (ventanaPdf) {
-        localStorage.removeItem('formularioData');
-        localStorage.removeItem('formularioStep');
-        localStorage.removeItem('wizardData');
-        localStorage.removeItem('wizardStep');
+      localStorage.removeItem('formularioData');
+      localStorage.removeItem('formularioStep');
+      localStorage.removeItem('wizardData');
+      localStorage.removeItem('wizardStep');
 
-        setTimeout(function() {
-            window.location.replace('https://axia.com.co/'); 
-        }, 3000);  
+      setTimeout(function () {
+        window.location.replace('https://axia.com.co/');
+      }, 3000);
     } else {
-        alert('No se pudo abrir el PDF. Por favor, habilita las ventanas emergentes en tu navegador.');
+      alert('No se pudo abrir el PDF. Por favor, habilita las ventanas emergentes en tu navegador.');
+    }
+  } catch (error) {
+    // Aquí se atrapan errores que Safari lanza directamente
+    console.error('Error al intentar abrir el PDF:', error);
+    alert('No se pudo abrir el PDF. Es posible que tu navegador esté bloqueando ventanas emergentes.');
   }
 })
+
     .catch(error => {
       console.error('❌ Error al enviar el formulario:', error);
       alert('Error al enviar el formulario. Revisa la consola.');

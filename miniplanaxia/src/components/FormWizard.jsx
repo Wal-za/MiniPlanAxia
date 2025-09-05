@@ -77,25 +77,18 @@ const nextSection = (sectionData) => {
       const url = URL.createObjectURL(blob);
       const ventanaPdf = window.open(url, '_blank');
 
-    // Verificar si la ventana emergente se abrió correctamente
     if (ventanaPdf) {
-        // Si se abrió correctamente, realizar las acciones
         localStorage.removeItem('formularioData');
         localStorage.removeItem('formularioStep');
         localStorage.removeItem('wizardData');
         localStorage.removeItem('wizardStep');
 
-        // Redirigir después de 3 segundos
         setTimeout(function() {
-            ventanaPdf.close();  // Cerrar la ventana del PDF (si lo deseas)
-            window.location.href = 'https://axia.com.co/';  // Redirigir
-        }, 3000);  // Espera 3 segundos antes de redirigir
+            window.location.href = 'https://axia.com.co/';
+        }, 5000);  
     } else {
-        // Si la ventana emergente no se pudo abrir (por ejemplo, está bloqueada)
-        alert('No se pudo abrir el PDF. Por favor, habilita las ventanas emergentes en tu navegador.');
-
-        // NO hacer nada, no redirigir, y no cerrar el PDF
-        // Puedes aquí manejar otras acciones si es necesario, pero no rediriges
+         ventanaPdf.close();
+        alert('No se pudo abrir el PDF. Por favor, habilita las ventanas emergentes en tu navegador.');        
     }
 
     })

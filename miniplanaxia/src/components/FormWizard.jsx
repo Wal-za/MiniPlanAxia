@@ -67,22 +67,25 @@ const nextSection = (sectionData) => {
     loadingDiv.style.zIndex = '9999';
     document.body.appendChild(loadingDiv);
 
-   // axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
-    
+    // Enviar la solicitud al servidor para generar el PDF
     axios.post('http://localhost:3001/api/miniplan', cleanedFormData, {
       responseType: 'blob'
     })
     .then(response => {
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');      
+      const pdfWindow = window.open(url, '_blank'); // Abrir el PDF en una nueva ventana o pestaña
 
-      localStorage.removeItem('formularioData');
-      localStorage.removeItem('formularioStep');
-      localStorage.removeItem('wizardData');
-      localStorage.removeItem('wizardStep');
+      // Esperar unos segundos antes de redirigir
+      setTimeout(() => {
+        localStorage.removeItem('formularioData');
+        localStorage.removeItem('formularioStep');
+        localStorage.removeItem('wizardData');
+        localStorage.removeItem('wizardStep');
 
-     window.location.href = 'https://axia.com.co/';
+        window.location.href = 'https://axia.com.co/';
+      }, 2000); // 2000 milisegundos (2 segundos) de espera
+
     })
     .catch(error => {
       console.error('❌ Error al enviar el formulario:', error);
@@ -95,10 +98,9 @@ const nextSection = (sectionData) => {
         loadingElem.remove();
       }
     });
-
-    
   }
 };
+
 
 //
 

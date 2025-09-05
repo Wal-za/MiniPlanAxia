@@ -82,9 +82,11 @@ const nextSection = (sectionData) => {
       localStorage.removeItem('wizardData');
       localStorage.removeItem('wizardStep');
 
-      alert("Formulario enviado con éxito");
 
-     window.location.href = 'https://axia.com.co/';
+        setTimeout(function() {
+          window.location.href = 'https://axia.com.co/';
+        }, 3000); 
+
     })
     .catch(error => {
       console.error('❌ Error al enviar el formulario:', error);

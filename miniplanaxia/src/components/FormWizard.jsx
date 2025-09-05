@@ -85,7 +85,7 @@ const nextSection = (sectionData) => {
 
         setTimeout(function() {
           window.location.href = 'https://axia.com.co/';
-        }, 3000); 
+        }, 10000); 
 
     })
     .catch(error => {

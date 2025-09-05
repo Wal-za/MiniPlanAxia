@@ -75,21 +75,17 @@ const nextSection = (sectionData) => {
     .then(response => {
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      const ventanaPdf = window.open(url, '_blank');
+      window.open(url, '_blank');      
 
-    if (ventanaPdf) {
-        localStorage.removeItem('formularioData');
-        localStorage.removeItem('formularioStep');
-        localStorage.removeItem('wizardData');
-        localStorage.removeItem('wizardStep');
+      localStorage.removeItem('formularioData');
+      localStorage.removeItem('formularioStep');
+      localStorage.removeItem('wizardData');
+      localStorage.removeItem('wizardStep');
+
 
         setTimeout(function() {
-            window.location.href = 'https://axia.com.co/';
-        }, 5000);  
-    } else {
-         ventanaPdf.close();
-        alert('No se pudo abrir el PDF. Por favor, habilita las ventanas emergentes en tu navegador.');        
-    }
+        //  window.location.href = 'https://axia.com.co/';
+        }, 3000); 
 
     })
     .catch(error => {

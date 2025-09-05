@@ -32,8 +32,8 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
     ],
   },
   { label: '¿Cuál es el ingreso neto que entra a tu cuenta de manera mensual?', name: 'ingresoNetoMensual', type: 'number' },
-  { label: '¿Recibes algún ingreso trimestral por cumplimiento?', name: 'ingresoTrimestral', type: 'number' },
-  { label: '¿Recibes ingresos adicionales mensuales?', name: 'ingresosAdicionales', type: 'number' },
+  { label: '¿Recibes algún ingreso trimestral por cumplimiento?(Si es asi,ingresa el valor mensual que esto representa,de lo contrario dejar en blanco.)', name: 'ingresoTrimestral', type: 'number' },
+  { label: '¿Recibes ingresos adicionales mensuales? (Si es asi, ingresa el valor mensual que esto representa,de lo contrario dejar en blanco.)', name: 'ingresosAdicionales', type: 'number' },
   {
   label: '¿Recibes prima?',
   name: 'primaAnual',
@@ -41,7 +41,7 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
   descripcion: 'Si recibes prima, ingresa el valor total que recibes en el año (suma de la prima de junio y la de diciembre).'
 },
 {
-  label: '¿Recibes bonificaciones?',
+  label: '¿Recibes bonificaciones? Si no puedes dejar el valor en blanco.',
   name: 'bonificacionesAnuales',
   type: 'number',
   descripcion: 'Si recibes bonificaciones, ingresa el valor total anual de tus bonos.'
@@ -137,7 +137,7 @@ export default function FormularioCompletoUnificado({ onNext, formData }) {
   { label: '¿Tienes póliza de salud?', type: 'radio', name: 'polizaSalud', options: ['Sí', 'No'] },
   { label: '¿Cuentas con un fondo de emergencia?', type: 'radio', name: 'fondoEmergencia', options: ['Sí', 'No'] },
   {
-    label: '¿Tienes plan B para tu pensión?',
+    label: '¿Tienes plan B para tu pensión? (Dejar en blanco si no tienes plan B, y dale clic al botón siguiente)',
     name: 'planB',
     type: 'text',
     descripcion: 'Puede ser: Fondo de pensiones voluntarias, plan de ahorro mensual, inversiones u otro tipo de respaldo económico. escribe cuál es tu plan B.'

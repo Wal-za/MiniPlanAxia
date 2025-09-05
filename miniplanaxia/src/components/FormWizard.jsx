@@ -75,9 +75,14 @@ const nextSection = (sectionData) => {
     .then(response => {
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
+      window.open(url, '_blank');      
+
+      localStorage.removeItem('formularioData');
+      localStorage.removeItem('formularioStep');
       localStorage.removeItem('wizardData');
       localStorage.removeItem('wizardStep');
+
+     window.location.href = 'https://axia.com.co/';
     })
     .catch(error => {
       console.error('❌ Error al enviar el formulario:', error);
@@ -91,12 +96,7 @@ const nextSection = (sectionData) => {
       }
     });
 
-      localStorage.removeItem('formularioData');
-      localStorage.removeItem('formularioStep');
-      localStorage.removeItem('wizardData');
-      localStorage.removeItem('wizardStep');
-
-     window.location.href = 'https://axia.com.co/';
+    
   }
 };
 

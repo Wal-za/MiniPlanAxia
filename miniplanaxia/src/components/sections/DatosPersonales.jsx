@@ -4,7 +4,7 @@ import PoliticaDatosModal from '../PoliticaDatosModal';
 export default function FormularioCompletoUnificado({ onNext, formData }) {
   const [aceptaTerminos, setAceptaTerminos] = useState(false);
 
-     const preguntas = [
+const preguntas = [
   { label: '¿Qué asesor de Axia Finanzas Personales te recomendó este test?', name: 'recomendadoPor', type: 'text' },
   { label: 'Nombre completo', name: 'nombre', type: 'text' },
   { label: 'Email', name: 'Email', type: 'text' },

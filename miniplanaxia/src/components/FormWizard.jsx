@@ -15,7 +15,12 @@ export default function FormWizard() {
 
   const CurrentSection = sections[sectionIndex].component;
 
-  // Guardar en localStorage cada vez que cambia
+  useEffect(() => {
+  fetch('https://server-axia.vercel.app/api/miniplan', { method: 'HEAD' })
+    .catch(() => console.log('⏳ Precargando backend...'));
+  }, []);
+
+
   useEffect(() => {
     localStorage.setItem('wizardData', JSON.stringify(formData));
   }, [formData]);
@@ -30,11 +35,10 @@ const nextSection = (sectionData) => {
   const cleanedFormData = {};
   for (const key in newFormData) {
     const value = newFormData[key];
-
     if (typeof value === 'string' && /^\d{1,3}(\.\d{3})*$/.test(value)) {
-      cleanedFormData[key] = value.replace(/\./g, ''); 
+      cleanedFormData[key] = value.replace(/\./g, '');
     } else {
-      cleanedFormData[key] = value; 
+      cleanedFormData[key] = value;
     }
   }
 
@@ -42,76 +46,92 @@ const nextSection = (sectionData) => {
 
   if (sectionIndex < sections.length - 1) {
     setSectionIndex(sectionIndex + 1);
-  } else {
-
-    // *** Agrego conversión de campos vacíos a null ***
-    for (const key in cleanedFormData) {
-      const value = cleanedFormData[key];
-      if (value === '' || value === undefined) {
-        cleanedFormData[key] = null;
-      }
-    }
-
-    // --- Mostrar mensaje de carga ---
-    const loadingDiv = document.createElement('div');
-    loadingDiv.id = 'axia-loading-message';
-    loadingDiv.textContent = 'Axia Cargando...';
-    loadingDiv.style.position = 'fixed';
-    loadingDiv.style.top = '10px';
-    loadingDiv.style.right = '10px';
-    loadingDiv.style.padding = '10px 20px';
-    loadingDiv.style.backgroundColor = '#000';
-    loadingDiv.style.color = '#fff';
-    loadingDiv.style.fontWeight = 'bold';
-    loadingDiv.style.borderRadius = '5px';
-    loadingDiv.style.zIndex = '9999';
-    document.body.appendChild(loadingDiv);
-
-    axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
-    
-    //axios.post('http://localhost:3001/api/miniplan', cleanedFormData, {
-      responseType: 'blob'
-    })
-    .then(response => {
-  const blob = new Blob([response.data], { type: 'application/pdf' });
-  const url = URL.createObjectURL(blob);
-
-  try {
-    const ventanaPdf = window.open(url, '_blank');
-
-    if (ventanaPdf) {
-      localStorage.removeItem('formularioData');
-      localStorage.removeItem('formularioStep');
-      localStorage.removeItem('wizardData');
-      localStorage.removeItem('wizardStep');
-
-      setTimeout(function () {
-        window.location.replace('https://axia.com.co/');
-      }, 3000);
-    } else {
-      alert('No se pudo abrir el PDF. Por favor, habilita las ventanas emergentes en tu navegador.');
-    }
-  } catch (error) {
-    // Aquí se atrapan errores que Safari lanza directamente
-    console.error('Error al intentar abrir el PDF:', error);
-    alert('No se pudo abrir el PDF. Es posible que tu navegador esté bloqueando ventanas emergentes.');
+    return;
   }
-})
 
-    .catch(error => {
-      console.error('❌ Error al enviar el formulario:', error);
-      alert('Error al enviar el formulario. Revisa la consola.');
+  // Convertir campos vacíos a null
+  for (const key in cleanedFormData) {
+    const value = cleanedFormData[key];
+    if (value === '' || value === undefined) {
+      cleanedFormData[key] = null;
+    }
+  }
+
+  // Mostrar mensaje de carga
+  const loadingDiv = document.createElement('div');
+  loadingDiv.id = 'axia-loading-message';
+  loadingDiv.textContent = 'Axia Cargando...';
+  loadingDiv.style.position = 'fixed';
+  loadingDiv.style.top = '10px';
+  loadingDiv.style.right = '10px';
+  loadingDiv.style.padding = '10px 20px';
+  loadingDiv.style.backgroundColor = '#000';
+  loadingDiv.style.color = '#fff';
+  loadingDiv.style.fontWeight = 'bold';
+  loadingDiv.style.borderRadius = '5px';
+  loadingDiv.style.zIndex = '9999';
+  document.body.appendChild(loadingDiv);
+
+  // Función que maneja el envío del formulario
+  const enviarFormulario = () => {
+    return axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
+      responseType: 'blob'
+    });
+  };
+
+  // Manejo de éxito
+  const manejarRespuesta = (response) => {
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+
+    try {
+      const ventanaPdf = window.open(url, '_blank');
+
+      if (ventanaPdf) {
+        localStorage.removeItem('formularioData');
+        localStorage.removeItem('formularioStep');
+        localStorage.removeItem('wizardData');
+        localStorage.removeItem('wizardStep');
+
+        setTimeout(() => {
+          window.location.replace('https://axia.com.co/');
+        }, 3000);
+      } else {
+        alert('No se pudo abrir el PDF. Habilita las ventanas emergentes.');
+      }
+    } catch (error) {
+      console.error('Error al intentar abrir el PDF:', error);
+      alert('No se pudo abrir el PDF. Tu navegador puede estar bloqueando ventanas emergentes.');
+    }
+  };
+
+  // Manejo de error
+  const manejarError = (error) => {
+    console.error('❌ Error al enviar el formulario:', error);
+    alert('Error al enviar el formulario. Revisa la consola.');
+  };
+
+  // Enviar y reintentar si es necesario
+  enviarFormulario()
+    .then(manejarRespuesta)
+    .catch((error) => {
+      if (error.code === 'ERR_NETWORK') {
+        console.warn('Primer intento falló por red. Reintentando...');
+        setTimeout(() => {
+          enviarFormulario()
+            .then(manejarRespuesta)
+            .catch(manejarError);
+        }, 1000);
+      } else {
+        manejarError(error);
+      }
     })
     .finally(() => {
-      // --- Quitar mensaje de carga ---
       const loadingElem = document.getElementById('axia-loading-message');
       if (loadingElem) {
         loadingElem.remove();
       }
     });
-
-    
-  }
 };
 
 //

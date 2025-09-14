@@ -74,8 +74,8 @@ const nextSection = (sectionData) => {
 
   // Función que maneja el envío del formulario
   const enviarFormulario = () => {
-   // return axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
-    return axios.post('http://localhost:3001/api/miniplan', newFormData, {
+   return axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
+    // return axios.post('http://localhost:3001/api/miniplan', newFormData, {
 
       responseType: 'blob'
     });

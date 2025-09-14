@@ -13,7 +13,7 @@ const preguntas = [
   { label: 'Empresa donde trabajas', name: 'empresa', type: 'text' },
   { label: 'Cargo / ocupación', name: 'cargo', type: 'text' },
   { label: 'Administradora de fondo de pensiones', name: 'afp', type: 'text' },
-  { label: '¿Cuántas semanas has aportado al sistema pensional?', name: 'semanasCotizadas', type: 'text' },
+  { label: '¿Cuántas semanas aproximadamente,has aportado al sistema pensional?', name: 'semanasCotizadas', type: 'text' },
   { label: '¿A qué edad te quieres pensionar?', name: 'edadPension', type: 'number' },
   { label: '¿Con cuánto?', name: 'montoPension', type: 'number' },
   {
@@ -32,8 +32,8 @@ const preguntas = [
     ],
   },
   { label: '¿Cuál es el ingreso neto que entra a tu cuenta de manera mensual?', name: 'ingresoNetoMensual', type: 'number' },
-  { label: '¿Recibes algún ingreso trimestral por cumplimiento?(Si es asi,ingresa el valor mensual que esto representa,de lo contrario dejar en blanco.)', name: 'ingresoTrimestral', type: 'number' },
-  { label: '¿Recibes ingresos adicionales mensuales? (Si es asi, ingresa el valor mensual que esto representa,de lo contrario dejar en blanco.)', name: 'ingresosAdicionales', type: 'number' },
+  { label: '¿Recibes algún ingreso trimestral por cumplimiento?(Si es asi,ingresa el valor mensual que esto representa,de lo contrario déjalo en blanco.)', name: 'ingresoTrimestral', type: 'number' },
+  { label: '¿Recibes ingresos adicionales mensuales? (Si es asi, ingresa el valor mensual que esto representa,de lo contrario déjalo en blanco.)', name: 'ingresosAdicionales', type: 'number' },
   {
   label: '¿Recibes prima?',
   name: 'primaAnual',
@@ -41,13 +41,13 @@ const preguntas = [
   descripcion: 'Si recibes prima, ingresa el valor total que recibes en el año (suma de la prima de junio y la de diciembre).'
 },
 {
-  label: '¿Recibes bonificaciones? Si no puedes dejar el valor en blanco.',
+  label: '¿Recibes bonificaciones? Si no, puedes dejar el valor en blanco.',
   name: 'bonificacionesAnuales',
   type: 'number',
   descripcion: 'Si recibes bonificaciones, ingresa el valor total anual de tus bonos.'
 },
   {
-    label: '¿Realizas algún tipo de ahorro mensual?',
+    label: '¿Cuanto ahorras mensualmente?',
     name: 'ahorroMensual',
     type: 'number',
     descripcion: 'Ejemplo: Cuenta AFC, fondo de empleados, pensiones voluntarias. Si es así, pon la sumatoria del valor mensual.'
@@ -86,7 +86,7 @@ const preguntas = [
     label: '¿Pagas seguros mensualmente?',
     name: 'segurosMensuales',
     type: 'number',
-    descripcion: 'Ejemplo: Sumatoria de medicina prepagada, seguro de vida, seguro de salud, seguro del carro.'
+    descripcion: 'Ejemplo: Sumatoria de medicina prepagada, seguro de vida, seguro de salud, o si pagas elseguro del carro mensualmente.'
   },
   {
     label: '¿Pagas cursos mensualmente?',
@@ -104,13 +104,13 @@ const preguntas = [
     label: '¿Realizas pagos anuales por seguros?',
     name: 'segurosAnuales',
     type: 'number',
-    descripcion: 'Ejemplo: SOAT, seguro de vida, seguro de incapacidad, póliza de responsabilidad civil, seguro de vivienda, etc.'
+    descripcion: 'Ejemplo: SOAT, seguro de vida, seguro de incapacidad, póliza de responsabilidad civil, seguro de vivienda, etc. Recuerda poner el total que pagas en todo el año por estos seguros.'
   },
   {
     label: '¿Tienes pagos de anualidades fijas?',
     name: 'anualidadesFijas',
     type: 'number',
-    descripcion: 'Ejemplo: Matrículas de colegio, semestres de universidad, pago a contador por declaración de renta, suscripciones, inscripciones a clubes o asociaciones.'
+    descripcion: 'Ejemplo: Matrículas de colegio, semestres de universidad, pago a contador por declaración de renta, suscripciones, inscripciones a clubes o asociaciones.Recuerda poner el valor total que pagas en todo un año por estas categorías.'
   },
   {
     label: '¿Cuánto gastas en anualidades variables?',
@@ -122,7 +122,7 @@ const preguntas = [
     label: '¿Pagas impuestos anuales?',
     name: 'impuestos',
     type: 'number',
-    descripcion: 'Si es así, por favor escribe cuánto pagas por: impuesto vehicular, predial, declaración de renta, etc.'
+    descripcion: 'Si es así, por favor escribe cuánto pagas por: impuesto vehicular, predial, declaración de renta, etc.Recuerda poner el valor que pagas en todo un año por esta categoría.'
   },
   {
   label: 'Por favor escribe el valor total de tus activos.',

@@ -113,6 +113,18 @@ const preguntas = [
     descripcion: 'Ejemplo: Matrículas de colegio, semestres de universidad, pago a contador por declaración de renta, suscripciones, inscripciones a clubes o asociaciones.Recuerda poner el valor total que pagas en todo un año por estas categorías.'
   },
   {
+  label: '¿Cuánto destinas de manera mensual a todas las cuotas de tus deudas?',
+  name: 'totalDeudasMensuales',
+  type: 'number',
+  descripcion: 'Incluye la sumatoria de pagos mensuales de tarjetas de crédito, créditos de libre inversión, vehículos, deudas personales, hipotecario, leasing, entre otros.'
+},
+{
+  label: '¿Tienes otros gastos mensuales?',
+  name: 'otrosGastosMensuales',
+  type: 'number',
+  descripcion: 'Sumatoria de ayuda a familiares, diezmos o donaciones, pagos de arriendo de tu consultorio u oficina, asistencia de personal como secretaria o asistente, celulares empresariales, soporte económico a tu cónyuge, celular de tus familiares, entre otros.'
+},
+  {
     label: '¿Cuánto gastas en anualidades variables?',
     name: 'anualidadesVariables',
     type: 'number',
@@ -148,19 +160,6 @@ const preguntas = [
   type: 'number',
   descripcion: 'Incluye: Sumatoria de tarjetas de crédito, créditos de libre inversión, vehicular, deudas personales, hipotecario, leasing.'
   },
-
-{
-  label: '¿Cuánto destinas de manera mensual a todas las cuotas de tus deudas?',
-  name: 'totalDeudasMensuales',
-  type: 'number',
-  descripcion: 'Incluye la sumatoria de pagos mensuales de tarjetas de crédito, créditos de libre inversión, vehículos, deudas personales, hipotecario, leasing, entre otros.'
-},
-{
-  label: '¿Tienes otros gastos mensuales?',
-  name: 'otrosGastosMensuales',
-  type: 'number',
-  descripcion: 'Sumatoria de ayuda a familiares, diezmos o donaciones, pagos de arriendo de tu consultorio u oficina, asistencia de personal como secretaria o asistente, celulares empresariales, soporte económico a tu cónyuge, celular de tus familiares, entre otros.'
-}
 
 ];
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatosPersonales from './sections/DatosPersonales';
-
+import SuccessModal from './SuccessModal';
 const sections = [
   { component: DatosPersonales, name: 'Datos Personales' },
 ];
@@ -12,9 +12,9 @@ export default function FormWizard() {
 
   const [sectionIndex, setSectionIndex] = useState(storedStep);
   const [formData, setFormData] = useState(storedData);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const CurrentSection = sections[sectionIndex].component;
-
 
 
   useEffect(() => {
@@ -24,6 +24,7 @@ export default function FormWizard() {
   useEffect(() => {
     localStorage.setItem('wizardStep', sectionIndex.toString());
   }, [sectionIndex]);
+
 
 const nextSection = (sectionData) => {
   const newFormData = { ...formData, ...sectionData };
@@ -70,15 +71,27 @@ const nextSection = (sectionData) => {
 
   // Función que maneja el envío del formulario
   const enviarFormulario = () => {
+    console.log(newFormData)
+
+    setModalOpen(true);
+
+
+
+    const profitClient=newFormData.ahorroMensual>400000?alert("Este es un cliente muy bueno"):alert("visitanos en nuestras redes");
    return axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
     //return axios.post('http://localhost:3001/api/miniplan', newFormData, {
 
       responseType: 'blob'
     });
+
+    console.log(newFormData)
   };
 
   // Manejo de éxito
   const manejarRespuesta = (response) => {
+
+    
+  
     const blob = new Blob([response.data], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
 
@@ -141,20 +154,29 @@ const nextSection = (sectionData) => {
   };
 
   return (
-    <div className='container'>
-      <h2></h2>
+    // 1. Usa un Fragmento de React (<>) como elemento raíz.
+    <>
+      {/* 2. Mantén todo el contenido de tu página dentro de su contenedor */}
+      <div className='container'>
+        <h2></h2>
 
-      <CurrentSection
-        onNext={nextSection}
-        onBack={prevSection}
-        formData={formData}
-      />
-
-      <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
-        {sectionIndex > 0 && (
-          <button onClick={prevSection}>Atrás</button>
-        )}
+        <CurrentSection
+          onNext={nextSection}
+          onBack={prevSection}
+          formData={formData}
+        />  
+        
+        <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
+          {sectionIndex > 0 && (
+            <button onClick={prevSection}>Atrás</button>
+          )}
+        </div>
       </div>
-    </div>
+
+      {/* 3. Renderiza el modal FUERA y DESPUÉS del contenedor. */}
+      {/* Ahora es un "hermano" del div.container, no un "hijo". */}
+      {modalOpen && <SuccessModal onClose={() => setModalOpen(false)} />}
+    </>
   );
 }
+

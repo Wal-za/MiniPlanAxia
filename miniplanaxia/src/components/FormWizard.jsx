@@ -13,6 +13,7 @@ export default function FormWizard() {
   const [sectionIndex, setSectionIndex] = useState(storedStep);
   const [formData, setFormData] = useState(storedData);
   const [modalOpen, setModalOpen] = useState(false);
+  const [profitclient,setProfitclient]=useState(false);
 
   const CurrentSection = sections[sectionIndex].component;
 
@@ -67,24 +68,27 @@ const nextSection = (sectionData) => {
   loadingDiv.style.fontWeight = 'bold';
   loadingDiv.style.borderRadius = '5px';
   loadingDiv.style.zIndex = '9999';
+  loadingDiv.style.display = 'none';
   document.body.appendChild(loadingDiv);
 
   // Función que maneja el envío del formulario
   const enviarFormulario = () => {
-    console.log(newFormData)
+  
 
     setModalOpen(true);
 
 
-
-    const profitClient=newFormData.ahorroMensual>400000?alert("Este es un cliente muy bueno"):alert("visitanos en nuestras redes");
+  const sobrante=newFormData.ingresoNetoMensual-newFormData.ahorroMensual-newFormData.gastosHogar-newFormData.segurosMensuales-newFormData.cursos-newFormData.comidaOficina-newFormData.cuidadoPersonal-newFormData.entretenimiento-newFormData.hijos-newFormData.totalDeudasMensuales-newFormData.otrosGastosMensuales
+    const profitClient=(newFormData.ahorroMensual>400000||newFormData.patrimonio>40000000||sobrante>400000)?true:false;
+    setProfitclient(profitClient)
+    
    return axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
     //return axios.post('http://localhost:3001/api/miniplan', newFormData, {
 
       responseType: 'blob'
     });
 
-    console.log(newFormData)
+   
   };
 
   // Manejo de éxito
@@ -103,6 +107,7 @@ const nextSection = (sectionData) => {
         localStorage.removeItem('formularioStep');
         localStorage.removeItem('wizardData');
         localStorage.removeItem('wizardStep');
+        setModalOpen(false);
 
         setTimeout(() => {
           window.location.replace('https://axia.com.co/');
@@ -175,7 +180,7 @@ const nextSection = (sectionData) => {
 
       {/* 3. Renderiza el modal FUERA y DESPUÉS del contenedor. */}
       {/* Ahora es un "hermano" del div.container, no un "hijo". */}
-      {modalOpen && <SuccessModal onClose={() => setModalOpen(false)} />}
+      {modalOpen && <SuccessModal profitClient={profitclient} onClose={() => setModalOpen(false)}  />}
     </>
   );
 }

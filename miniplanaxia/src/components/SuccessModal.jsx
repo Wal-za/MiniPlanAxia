@@ -2,7 +2,7 @@ import React from 'react';
 import { CheckCircle, X } from 'lucide-react';
 import './SuccessModal.css';
 
-const SuccessModal = ({ onClose }) => {
+const SuccessModal = ({ onClose,profitclient }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
@@ -13,21 +13,23 @@ const SuccessModal = ({ onClose }) => {
         </div>
 
         {/* Título */}
-        <h2 className="modal-title">¡Formulario Enviado!</h2>
+        <h2 className="modal-title">¡Estamos creando tu plan financiero !</h2>
 
         {/* Cuerpo */}
         <div className="modal-body">
-          <p>
-            ¡Un asesor de <span className="highlight">Axia</span> se pondrá en contacto contigo!
-          </p>
+        {profitclient&& <p>
+            ¡Un asesor de Axia se pondrá en contacto contigo.!
+          </p>}
+
+          {!profitclient&& <p>
+            ¡Síguenos en nuestras redes sociales.!
+          </p>}
+          
+         
         </div>
 
         {/* Botón */}
-        <div className="modal-footer">
-          <button className="modal-button" onClick={onClose}>
-            Entendido
-          </button>
-        </div>
+      
       </div>
     </div>
   );

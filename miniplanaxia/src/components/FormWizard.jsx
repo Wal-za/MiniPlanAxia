@@ -76,11 +76,42 @@ const nextSection = (sectionData) => {
   
 
     setModalOpen(true);
+    const safeNumber = (value) => {
+      if (typeof value === 'string') {
+          // Limpiar la cadena de caracteres no numéricos (excepto el punto decimal)
+          // Esto es útil si los números vienen con comas, símbolos de moneda, etc.
+          const cleaned = value.replace(/[^0-9.]/g, '');
+          if (cleaned === '') {
+              return 0; // Si la cadena limpia está vacía, devuelve 0
+          }
+          return Number(cleaned);
+      }
+      // Si no es una cadena, o es undefined/null/0, Number(value || 0) lo manejará
+      return Number(value || 0); // Si es undefined o null, se convierte a 0
+  };
 
+  const patrimonio = safeNumber(newFormData.patrimonio);
+const ahorroMensual = safeNumber(newFormData.ahorroMensual);
 
-  const sobrante=newFormData.ingresoNetoMensual-newFormData.ahorroMensual-newFormData.gastosHogar-newFormData.segurosMensuales-newFormData.cursos-newFormData.comidaOficina-newFormData.cuidadoPersonal-newFormData.entretenimiento-newFormData.hijos-newFormData.totalDeudasMensuales-newFormData.otrosGastosMensuales
-    const profitClient=(newFormData.ahorroMensual>400000||newFormData.patrimonio>40000000||sobrante>400000)?true:false;
+// Todas las variables utilizadas en el cálculo de sobrante también deben ser numéricas.
+const ingresoNetoMensual = safeNumber(newFormData.ingresoNetoMensual);
+const gastosHogar = safeNumber(newFormData.gastosHogar);
+const segurosMensuales = safeNumber(newFormData.segurosMensuales);
+const cursos = safeNumber(newFormData.cursos);
+const comidaOficina = safeNumber(newFormData.comidaOficina);
+const cuidadoPersonal = safeNumber(newFormData.cuidadoPersonal);
+const entretenimiento = safeNumber(newFormData.entretenimiento);
+const hijos = safeNumber(newFormData.hijos);
+const totalDeudasMensuales = safeNumber(newFormData.totalDeudasMensuales);
+const otrosGastosMensuales = safeNumber(newFormData.otrosGastosMensuales);
+  
+  
+   
+
+  const sobrante=(ingresoNetoMensual-ahorroMensual-gastosHogar-segurosMensuales-cursos-comidaOficina-cuidadoPersonal-entretenimiento-hijos-totalDeudasMensuales-otrosGastosMensuales)
+    const profitClient=(ahorroMensual>=400000||patrimonio>=40000000||sobrante>=400000)?true:false;
     setProfitclient(profitClient)
+ 
     
    return axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
     //return axios.post('http://localhost:3001/api/miniplan', newFormData, {
@@ -180,7 +211,7 @@ const nextSection = (sectionData) => {
 
       {/* 3. Renderiza el modal FUERA y DESPUÉS del contenedor. */}
       {/* Ahora es un "hermano" del div.container, no un "hijo". */}
-      {modalOpen && <SuccessModal profitClient={profitclient} onClose={() => setModalOpen(false)}  />}
+      {modalOpen && <SuccessModal profitclient={profitclient} onClose={() => setModalOpen(false)}  />}
     </>
   );
 }

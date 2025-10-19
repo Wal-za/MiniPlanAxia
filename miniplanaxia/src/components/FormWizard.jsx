@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatosPersonales from './sections/DatosPersonales';
-import SuccessModal from './SuccessModal';
+//import SuccessModal from './SuccessModal';
+
+
+import SuccessModal from './SuccessModal copy';
 const sections = [
   { component: DatosPersonales, name: 'Datos Personales' },
 ];
@@ -14,6 +17,7 @@ export default function FormWizard() {
   const [formData, setFormData] = useState(storedData);
   const [modalOpen, setModalOpen] = useState(false);
   const [profitclient,setProfitclient]=useState(false);
+  const [pdf, setPdf] = useState(null);
 
   const CurrentSection = sections[sectionIndex].component;
 
@@ -129,7 +133,7 @@ const otrosGastosMensuales = safeNumber(newFormData.otrosGastosMensuales);
   
     const blob = new Blob([response.data], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
-
+    setPdf(blob)
     try {
       const ventanaPdf = window.open(url, '_blank');
 
@@ -138,17 +142,17 @@ const otrosGastosMensuales = safeNumber(newFormData.otrosGastosMensuales);
         localStorage.removeItem('formularioStep');
         localStorage.removeItem('wizardData');
         localStorage.removeItem('wizardStep');
-        setModalOpen(false);
+        //setModalOpen(false);
 
         setTimeout(() => {
-          window.location.replace('https://axia.com.co/');
+         // window.location.replace('https://axia.com.co/');
         }, 3000);
       } else {
-        alert('No se pudo abrir el PDF. Habilita las ventanas emergentes.');
+        alert('No se pudo abrir el PDF. Tu navegador puede estar bloqueando ventanas emergentes.');
       }
     } catch (error) {
       console.error('Error al intentar abrir el PDF:', error);
-      alert('No se pudo abrir el PDF. Tu navegador puede estar bloqueando ventanas emergentes.');
+      alert('No se pudo abrir el PDF.');
     }
   };
 
@@ -211,7 +215,8 @@ const otrosGastosMensuales = safeNumber(newFormData.otrosGastosMensuales);
 
       {/* 3. Renderiza el modal FUERA y DESPUÉS del contenedor. */}
       {/* Ahora es un "hermano" del div.container, no un "hijo". */}
-      {modalOpen && <SuccessModal profitclient={profitclient} onClose={() => setModalOpen(false)}  />}
+      {/*modalOpen && <SuccessModal profitclient={profitclient} onClose={() => setModalOpen(false)}  />*/}
+      {modalOpen && <SuccessModal profitclient={profitclient} datos={formData} pdf={pdf} onClose={() => setModalOpen(false)}  />}
     </>
   );
 }

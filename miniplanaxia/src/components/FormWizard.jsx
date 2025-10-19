@@ -117,7 +117,7 @@ const otrosGastosMensuales = safeNumber(newFormData.otrosGastosMensuales);
     setProfitclient(profitClient)
  
     
-   return axios.post('https://server-axia.vercel.app/api/miniplan', newFormData, {
+   return axios.post('http://tester-axia-server.vercel.app/api/miniplan', newFormData, {
     //return axios.post('http://localhost:3001/api/miniplan', newFormData, {
 
       responseType: 'blob'

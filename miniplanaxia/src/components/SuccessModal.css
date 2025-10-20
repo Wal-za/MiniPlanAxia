@@ -1,74 +1,65 @@
+/* Modal Overlay */
 .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
-  
-  .modal-container {
-    background: #fff;
-    border-radius: 1rem;
-    padding: 2rem 2rem 1.5rem;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.2s ease-in-out;
-  }
-  
-  /* Ícono centrado */
-  .modal-icon-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0.5rem;
-  }
-  
-  .modal-icon {
-    color: #00A859; /* Verde oficial de Axia */
-    width: 60px;
-    height: 60px;
-  }
-  
-  .modal-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  .modal-body {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-    color: #4b5563;
-  }
-  
-  .modal-body .highlight {
-    font-weight: bold;
-    color: rgb(1, 66, 172);
-  }
-  
-  .modal-footer {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .modal-button {
-    background-color: rgb(1, 66, 172);
-    color: white;
-    border: none;
-    padding: 0.6rem 1.5rem;
-    border-radius: 0.6rem;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-  }
-  
- 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Modal Container */
+.modal-container {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem 2rem 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Spinner */
+.modal-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;  
+  margin-bottom: 20px;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3; 
+  border-top: 4px solid #007bff;  
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1.5s linear infinite;  
+}
+
+/* Animación del spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Título */
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Cuerpo del modal */
+.modal-body {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #4b5563;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}

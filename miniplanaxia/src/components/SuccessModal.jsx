@@ -1,35 +1,24 @@
 import React from 'react';
-import { CheckCircle, X } from 'lucide-react';
 import './SuccessModal.css';
 
-const SuccessModal = ({ onClose,profitclient }) => {
+const SuccessModal = ({ onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         
-        {/* Ícono centrado */}
+        {/* Spinner */}
         <div className="modal-icon-container">
-          <CheckCircle className="modal-icon" />
+          <div className="loading-spinner"></div>
         </div>
 
         {/* Título */}
-        <h2 className="modal-title">¡Estamos creando tu plan financiero !</h2>
+        <h2 className="modal-title text-xl font-semibold mt-4">¡Estamos trabajando en ello!</h2>
 
         {/* Cuerpo */}
-        <div className="modal-body">
-        {profitclient&& <p>
-            ¡Un asesor de Axia se pondrá en contacto contigo.!
-          </p>}
-
-          {!profitclient&& <p>
-            ¡Síguenos en nuestras redes sociales.!
-          </p>}
-          
-         
+        <div className="modal-body mt-2">
+          <p className="text-gray-700">Por favor, espera un momento.</p>
         </div>
 
-        {/* Botón */}
-      
       </div>
     </div>
   );

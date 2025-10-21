@@ -63,7 +63,7 @@ const SuccessModal = ({ onClose, profitclient, datos, pdf }) => {
         localStorage.removeItem('wizardStep');
 
         setTimeout(() => {
-          // window.location.replace('https://axia.com.co/');
+          window.location.replace('https://axia.com.co/');
         }, 3000);
 
         onClose();

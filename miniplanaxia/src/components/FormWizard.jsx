@@ -93,7 +93,7 @@ export default function FormWizard() {
       const profitClient = (ahorroMensual >= 400000 || patrimonio >= 40000000 || sobrante >= 400000) ? true : false;
       setProfitclient(profitClient)
 
-      return axios.post('https://tester-axia-server.vercel.app/api/miniplan', newFormData, {
+      return axios.post('https://axia-server.vercel.app/api/miniplan', newFormData, {
         //return axios.post('http://localhost:3001/api/miniplan', newFormData, {
 
         responseType: 'blob'

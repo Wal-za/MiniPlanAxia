@@ -66,7 +66,7 @@ const SuccessModal = ({ onClose, profitclient, datos, pdf }) => {
 
         setTimeout(() => {
           window.location.replace('https://axia.com.co/');
-        }, 1000);
+        }, 3000);
 
         onClose();
       } else {

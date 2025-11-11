@@ -33,14 +33,12 @@ const SuccessModal = ({ onClose, profitclient, datos, pdf }) => {
 
       const blob = new Blob([fileToSend], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
+      const ventanaPdf = window.open(url, '_blank');
 
-      /* 
-            const ventanaPdf = window.open(url, '_blank');
-      
-           if (!ventanaPdf) {
-              alert('No se pudo abrir el PDF. Tu navegador puede estar bloqueando ventanas emergentes.');
-              return;
-            }*/
+      if (!ventanaPdf) {
+        /*alert('No se pudo abrir el PDF. Tu navegador puede estar bloqueando ventanas emergentes.');
+        return;*/
+      }
 
       formData.append('pdf', fileToSend);
 
@@ -49,9 +47,9 @@ const SuccessModal = ({ onClose, profitclient, datos, pdf }) => {
       } else {
         alert('Los datos del objeto no son válidos.');
         return;
-      }
+      }     
 
-      // const response = await axios.post('http://localhost:3001/api/Email', formData, {
+     // const response = await axios.post('http://localhost:3001/api/Email', formData, {
       const response = await axios.post('https://server-axia.vercel.app/api/Email', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',

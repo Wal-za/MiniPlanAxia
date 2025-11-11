@@ -58,8 +58,7 @@ const SuccessModal = ({ onClose, profitclient, datos, pdf }) => {
         },
       });
 
-      // if (response.status === 200) {
-      if (true) {
+      if (response.status === 200) {
         localStorage.removeItem('formularioData');
         localStorage.removeItem('formularioStep');
         localStorage.removeItem('wizardData');

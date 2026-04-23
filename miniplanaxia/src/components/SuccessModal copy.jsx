@@ -49,8 +49,10 @@ const SuccessModal = ({ onClose, profitclient, datos, pdf }) => {
         return;
       }     
 
+      //https://server-axia-eosin.vercel.app
+
      // const response = await axios.post('http://localhost:3001/api/Email', formData, {
-      const response = await axios.post('https://server-axia.vercel.app/api/Email', formData, {
+      const response = await axios.post('https://server-axia-eosin.vercel.app/api/Email', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
